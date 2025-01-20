@@ -2,17 +2,17 @@ version: '3.8'
 
 services:
   # Authentication Service Database (PostgreSQL)
-  authentication-db:
+  auth-db:
     image: postgres:latest
-    container_name: authentication-db
+    container_name: auth-db
     ports:
       - "5432:5432"  # Exposes PostgreSQL on localhost:5432
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin123
-      POSTGRES_DB: authenticationdb
+      POSTGRES_DB: authdb
     volumes:
-      - authentication-db-data:/var/lib/postgresql/data
+      - auth-db-data:/var/lib/postgresql/data
     networks:
       - ecommerce-net
 
@@ -84,7 +84,7 @@ services:
 
 # Volumes for persisting data
 volumes:
-  authentication-db-data:
+  auth-db-data:
   inventory-db-data:
   product-db-data:
   notification-db-data:

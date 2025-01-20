@@ -1,0 +1,72 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MarketHub.Authentication", "MarketHub.Authentication", "{FCEC7D97-B9C9-4BEF-8166-04E81CF00161}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MarketHub.Product", "MarketHub.Product", "{DACA1E02-CD94-4190-849B-6E63B8A3B89D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MarketHub.Inventory", "MarketHub.Inventory", "{FD32A027-8F4A-4350-80DB-6995373709D9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MarketHub.Order", "MarketHub.Order", "{D377D696-C329-42A6-95B8-1B8FB54033B7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MarketHub.Payment", "MarketHub.Payment", "{AB938687-15B8-45BD-BC16-B674E5AB4009}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MarketHub.Notification", "MarketHub.Notification", "{F1466E43-C418-4914-8660-EB463FAD4071}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketHub.Authentication.Service", "MarketHub.Authentication.Service\MarketHub.Authentication.Service.csproj", "{880CFE39-B693-4D46-9A0B-F26877603366}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketHub.Inventory.Service", "MarketHub.Inventory.Service\MarketHub.Inventory.Service.csproj", "{29CF8897-6905-4D40-B35E-E58DFB594B01}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketHub.Notification.Service", "MarketHub.Notification.Service\MarketHub.Notification.Service.csproj", "{FEA6CF71-2165-4D0B-853C-F237E1FCB686}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketHub.Order.Service", "MarketHub.Order.Service\MarketHub.Order.Service.csproj", "{B06E6CF5-CF20-4E21-ACB8-442C2A115C01}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketHub.Payment.Service", "MarketHub.Payment.Service\MarketHub.Payment.Service.csproj", "{A14CA408-6A02-4472-B0FE-148E973CEC00}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketHub.Product.Service", "MarketHub.Product.Service\MarketHub.Product.Service.csproj", "{7E8A766E-293F-4C8F-8C4D-C0DB273A56CB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{880CFE39-B693-4D46-9A0B-F26877603366}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{880CFE39-B693-4D46-9A0B-F26877603366}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{880CFE39-B693-4D46-9A0B-F26877603366}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{880CFE39-B693-4D46-9A0B-F26877603366}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29CF8897-6905-4D40-B35E-E58DFB594B01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29CF8897-6905-4D40-B35E-E58DFB594B01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29CF8897-6905-4D40-B35E-E58DFB594B01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29CF8897-6905-4D40-B35E-E58DFB594B01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEA6CF71-2165-4D0B-853C-F237E1FCB686}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEA6CF71-2165-4D0B-853C-F237E1FCB686}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEA6CF71-2165-4D0B-853C-F237E1FCB686}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEA6CF71-2165-4D0B-853C-F237E1FCB686}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B06E6CF5-CF20-4E21-ACB8-442C2A115C01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B06E6CF5-CF20-4E21-ACB8-442C2A115C01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B06E6CF5-CF20-4E21-ACB8-442C2A115C01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B06E6CF5-CF20-4E21-ACB8-442C2A115C01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A14CA408-6A02-4472-B0FE-148E973CEC00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A14CA408-6A02-4472-B0FE-148E973CEC00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A14CA408-6A02-4472-B0FE-148E973CEC00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A14CA408-6A02-4472-B0FE-148E973CEC00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E8A766E-293F-4C8F-8C4D-C0DB273A56CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E8A766E-293F-4C8F-8C4D-C0DB273A56CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E8A766E-293F-4C8F-8C4D-C0DB273A56CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E8A766E-293F-4C8F-8C4D-C0DB273A56CB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{880CFE39-B693-4D46-9A0B-F26877603366} = {FCEC7D97-B9C9-4BEF-8166-04E81CF00161}
+		{29CF8897-6905-4D40-B35E-E58DFB594B01} = {FD32A027-8F4A-4350-80DB-6995373709D9}
+		{FEA6CF71-2165-4D0B-853C-F237E1FCB686} = {F1466E43-C418-4914-8660-EB463FAD4071}
+		{B06E6CF5-CF20-4E21-ACB8-442C2A115C01} = {D377D696-C329-42A6-95B8-1B8FB54033B7}
+		{A14CA408-6A02-4472-B0FE-148E973CEC00} = {AB938687-15B8-45BD-BC16-B674E5AB4009}
+		{7E8A766E-293F-4C8F-8C4D-C0DB273A56CB} = {DACA1E02-CD94-4190-849B-6E63B8A3B89D}
+	EndGlobalSection
+EndGlobal

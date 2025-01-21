@@ -1,96 +1,24 @@
-version: '3.8'
+  version: '3.8'
 
-services:
-  # Authentication Service Database (PostgreSQL)
-  authentication-db:
-    image: postgres:latest
-    container_name: authentication-db
-    ports:
-      - "5432:5432"  # Exposes PostgreSQL on localhost:5432
-    environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin123
-      POSTGRES_DB: authenticationdb
-    volumes:
-      - authentication-db-data:/var/lib/postgresql/data
-    networks:
-      - ecommerce-net
+  services:
+    identity-db:
+      image: postgres:16
+      container_name: identity-db
+      environment:
+        POSTGRES_USER: admin
+        POSTGRES_PASSWORD: admin123
+        POSTGRES_DB: identitydb
+      volumes:
+        - identity-db-data:/var/lib/postgresql/data
+        - ./init:/docker-entrypoint-initdb.d/
+      ports:
+        - "5432:5432"
+      networks:
+        - marketHub-net
 
-  # Inventory Service Database (MS SQL Server)
-  inventory-db:
-    image: mcr.microsoft.com/mssql/server:latest
-    container_name: inventory-db
-    ports:
-      - "1433:1433"  # Exposes MS SQL on localhost:1433
-    environment:
-      ACCEPT_EULA: "Y"
-      SA_PASSWORD: "StrongPass123!"
-    volumes:
-      - inventory-db-data:/var/opt/mssql
-    networks:
-      - ecommerce-net
+  volumes:
+    identity-db-data:
 
-  # Product Service Databases (MS SQL Server, Elasticsearch)
-  product-db:
-    image: mcr.microsoft.com/mssql/server:latest
-    container_name: product-db
-    ports:
-      - "1434:1433"  # Exposes MS SQL for Product on localhost:1434
-    environment:
-      ACCEPT_EULA: "Y"
-      SA_PASSWORD: "StrongPass123!"
-    volumes:
-      - product-db-data:/var/opt/mssql
-    networks:
-      - ecommerce-net
-
-  product-elasticsearch:
-    image: elasticsearch:latest
-    container_name: product-elasticsearch
-    ports:
-      - "9200:9200"  # Exposes Elasticsearch on localhost:9200
-      - "9300:9300"  # Node-to-node communication
-    environment:
-      discovery.type: single-node
-      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
-    networks:
-      - ecommerce-net
-
-  # Notification Service Database (MongoDB)
-  notification-db:
-    image: mongo:latest
-    container_name: notification-db
-    ports:
-      - "27017:27017"  # Exposes MongoDB on localhost:27017
-    volumes:
-      - notification-db-data:/data/db
-    networks:
-      - ecommerce-net
-
-  # Order Service Database (PostgreSQL)
-  order-db:
-    image: postgres:latest
-    container_name: order-db
-    ports:
-      - "5435:5432"  # Exposes PostgreSQL for Order on localhost:5435
-    environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin123
-      POSTGRES_DB: orderdb
-    volumes:
-      - order-db-data:/var/lib/postgresql/data
-    networks:
-      - ecommerce-net
-
-# Volumes for persisting data
-volumes:
-  authentication-db-data:
-  inventory-db-data:
-  product-db-data:
-  notification-db-data:
-  order-db-data:
-
-# Custom network for service communication
-networks:
-  ecommerce-net:
-    driver: bridge
+  networks:
+    marketHub-net:
+      driver: bridge

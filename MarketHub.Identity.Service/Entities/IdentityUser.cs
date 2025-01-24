@@ -8,7 +8,7 @@ public class IdentityUser
     public string? Email { get; set; }
 
     public string? RefreshToken { get; set; }
-    public DateTime RefreshTokenExpiry { get; set; }
+    public DateTime? RefreshTokenExpiry { get; set; }
     public bool IsActive { get; set; }
     public bool IsDeleted { get; set; }
 

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace MarketHub.Identity.Service.Repositories.Token;
 
-public class TokenUtils(IConfiguration configuration)
+public class TokenUtils(IConfiguration configuration): ITokenUtils
 {
     private readonly IConfiguration _configuration = configuration;
     public string GenerateAccessToken(IdentityUser user)
@@ -28,7 +28,7 @@ public class TokenUtils(IConfiguration configuration)
         return tokenHandler.WriteToken(token);
     }
 
-    public string GenerateRefreshToken(Guid userId)
+    public  string GenerateRefreshToken(Guid userId)
     {
         var randomBytes = RandomNumberGenerator.GetBytes(64);
         var userIdBytes = userId.ToByteArray();

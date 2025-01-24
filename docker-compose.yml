@@ -1,5 +1,4 @@
   version: '3.8'
-
   services:
     identity-db:
       image: postgres:16
@@ -16,8 +15,24 @@
       networks:
         - marketHub-net
 
+
+
+    product-db:
+      image: mcr.microsoft.com/mssql/server:latest
+      container_name: product-db
+      ports:
+      - "1434:1433"  # Exposes MS SQL for Product on localhost:1434
+      environment:
+        ACCEPT_EULA: "Y"
+        SA_PASSWORD: "StrongPass123!"
+      volumes:
+        - product-db-data:/var/opt/mssql
+      networks:
+        - marketHub-net
+
   volumes:
     identity-db-data:
+    product-db-data:
 
   networks:
     marketHub-net:

@@ -4,10 +4,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MarketHub.Identity.Service.Repositories.Login;
 
-public class LoginService(AppDbContext context, TokenUtils tokenUtils) : ILoginService
+public class LoginService(AppDbContext context, ITokenUtils tokenUtils) : ILoginService
 {
     private readonly AppDbContext _context = context;
-    private readonly TokenUtils _tokenUtils = tokenUtils;
+    private readonly ITokenUtils _tokenUtils = tokenUtils;
 
     public async Task<TokenResponseDto> LoginAsync(LoginDto request)
     {

@@ -1,8 +1,9 @@
-﻿using MarketHub.Identity.Service.DataTransferObjects;
+﻿using MarketHub.Common.Library.OperationResult;
+using MarketHub.Identity.Service.DataTransferObjects;
 
 namespace MarketHub.Identity.Service.Repositories.Registration;
 
 public interface IRegistrationService
 {
-    Task RegisterUserAsync(CreateIdentityUserDto user);
+    Task<OperationResult> RegisterUserAsync(CreateIdentityUserDto user);
 }

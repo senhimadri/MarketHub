@@ -1,5 +1,4 @@
 using MarketHub.Identity.Service;
-using MarketHub.Identity.Service.Endpoients;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,7 +15,6 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.MapUserEndpoints();
-app.MapLoginEndpoints();
+app.UseApiEndpoients();
 
 app.Run();

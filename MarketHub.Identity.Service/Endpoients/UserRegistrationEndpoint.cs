@@ -8,7 +8,7 @@ public static class UserRegistrationEndpoint
 {
     public static IEndpointRouteBuilder MapUserEndpoints(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("/users");
+        var group = app.MapGroup("/users").WithTags("Users");
 
         group.MapPost("/", async (IRegistrationService registrationService, CreateIdentityUserDto user) =>
         {
@@ -24,15 +24,15 @@ public static class UserRegistrationEndpoint
 
     public static IEndpointRouteBuilder MapLoginEndpoints(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("/auth");
+        var group = app.MapGroup("/auth").WithTags("Auth");
 
-        app.MapPost("/login", async (ILoginService loginService, LoginDto request) =>
+        group.MapPost("/login", async (ILoginService loginService, LoginDto request) =>
         {
             var response = await loginService.LoginAsync(request);
             return response is not null ? Results.Ok(response) : Results.NotFound();
         }).WithName("LoginUser");
 
-        app.MapPost("/refresh-token", async (ILoginService loginService, string refreshToken) =>
+        group.MapPost("/refresh-token", async (ILoginService loginService, string refreshToken) =>
         {
             var response = await loginService.RefreshTokenAsync(refreshToken);
             return response is not null ? Results.Ok(response) : Results.NotFound();

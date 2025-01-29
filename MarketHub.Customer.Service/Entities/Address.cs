@@ -1,7 +1,4 @@
-﻿using MarketHub.Product.Service.Entities;
-
-namespace MarketHub.Customer.Service.Entities;
-
+﻿namespace MarketHub.Customer.Service.Entities;
 public class Address : BaseEntity
 {
     public string? Street { get; set; }

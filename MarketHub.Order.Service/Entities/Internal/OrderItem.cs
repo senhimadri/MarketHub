@@ -1,4 +1,4 @@
-﻿using MarketHub.Order.Service.Entities.External;
+﻿using MarketHub.Order.Service.ExternalEntities;
 
 namespace MarketHub.Order.Service.Entities.Internal;
 

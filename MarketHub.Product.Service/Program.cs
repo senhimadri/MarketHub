@@ -1,5 +1,7 @@
 using MarketHub.Product.Service;
 using MarketHub.Product.Service.Endpoints;
+using MarketHub.Product.Service.Repositories.IServices;
+using MarketHub.Product.Service.Repositories.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +12,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
+builder.Services.AddTransient<IItemRepository, ItemRepository>();
 var app = builder.Build();
 
 app.UseSwagger();

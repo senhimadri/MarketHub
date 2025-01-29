@@ -1,6 +1,9 @@
-﻿using MarketHub.Product.Service.DataTransferObjects;
+﻿using MarketHub.Identity.Service;
+using MarketHub.Product.Service.DataTransferObjects;
 using MarketHub.Product.Service.Entities;
 using MarketHub.Product.Service.Helper;
+using MarketHub.Product.Service.Repositories.IServices;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,117 +13,38 @@ public static class ItemEndpoints
 {
     public static void MapItemEndpoints(this WebApplication app)
     {
-        app.MapPost("/create-item", async (AppDbContext _context, [FromBody] CreateItemDto request) =>
+        app.MapPost("/create-item", async (IItemRepository _ItemService, [FromBody] CreateItemDto request) =>
         {
-            var itemId = Guid.NewGuid();
+            var response = await _ItemService.CreateItemAsync(request);
 
-            var newItem = new Item
-            {
-                Id = itemId,
-                Name = request.Name,
-                Description = request.Description,
-                SKU = request.SKU,
-                Price = request.Price,
-                Stock = request.Stock,
-                ImageUrl = request.ImageUrl,
-                CreatedAt = DateTime.UtcNow
-            };
-            _context.Add(newItem);
-            await _context.SaveChangesAsync();
-
-            var newItemCategory = request.CategoryIds.Select(CategoryId => new ItemCategory
-            {
-                ItemId = itemId,
-                CategoryId = CategoryId
-            }).ToList();
-
-            _context.ItemCategory.AddRange(newItemCategory);
-            await _context.SaveChangesAsync();
-
-            return Results.Created();
+            return response.Match(onSuccess: () => Results.Created(),
+                        onValidationFailure: (validationErrors) => Results.ValidationProblem(validationErrors),
+                        onFailure: (error) => Results.Problem(error.Description));
         });
 
-        app.MapPut("/update-item", async (AppDbContext _context, [FromBody] UpdateItemDto request) =>
+        app.MapPut("/update-item", async (IItemRepository _ItemService, [FromBody] UpdateItemDto request) =>
         {
-            var existingItem = await _context.Item.FindAsync(request.Id);
-            if (existingItem is null)
-                return Results.BadRequest("Item not found.");
+            var response = await _ItemService.UpdateItemAsync(request);
 
-            existingItem.Name = request.Name;
-            existingItem.Description = request.Description;
-            existingItem.SKU = request.SKU;
-            existingItem.Price = request.Price;
-            existingItem.Stock = request.Stock;
-            existingItem.ImageUrl = request.ImageUrl;
-            existingItem.UpdatedAt = DateTime.UtcNow;
-
-            _context.Update(existingItem);
-
-            var existingItemCategories = await _context.ItemCategory
-                                .Where(x => x.ItemId == request.Id)
-                                .ToListAsync();
-
-            var existingCategoryIds = existingItemCategories.Select(x => x.CategoryId).ToHashSet();
-            var newCategoryIds = request.CategoryIds.ToHashSet();
-
-            var itemCategoriesToAdd = newCategoryIds.Except(existingCategoryIds).Select(categoryId => new ItemCategory
-            {
-                ItemId = request.Id,
-                CategoryId = categoryId
-            }).ToList();
-
-            var itemCategoriesToRemove = existingItemCategories
-                    .Where(x => !newCategoryIds.Contains(x.CategoryId))
-                    .ToList();
-
-            _context.ItemCategory.RemoveRange(itemCategoriesToRemove);
-            _context.ItemCategory.AddRange(itemCategoriesToAdd);
-
-            await _context.SaveChangesAsync();
-
-            return Results.NoContent();
+            return response.Match(onSuccess: () => Results.NoContent(),
+                        onValidationFailure: (validationErrors) => Results.ValidationProblem(validationErrors),
+                        onFailure: (error) => Results.Problem(error.Description)); 
         });
 
-        app.MapDelete("/delete-item", async (AppDbContext _context, Guid id) =>
+        app.MapDelete("/delete-item", async (IItemRepository _ItemService, Guid id) =>
         {
-            var existingItem = await _context.Item.FindAsync(id);
+            var response = await _ItemService.DeleteItemAsync(id);
 
-            if (existingItem is null)
-                return Results.BadRequest("Item is not available");
-
-            existingItem.IsDeleted = true;
-
-            await _context.SaveChangesAsync();
-
-            return Results.Ok("Deleted Successfully.");
+            return response.Match(onSuccess: () => Results.NoContent(),
+                        onValidationFailure: (validationErrors) => Results.ValidationProblem(validationErrors),
+                        onFailure: (error) => Results.Problem(error.Description));
         });
 
-        app.MapGet("/getby-item", async (AppDbContext _context, Guid id) =>
+        app.MapGet("/getby-item", async (IItemRepository _ItemService, Guid id) =>
         {
-            var item = await _context.Item
-                .Include(x => x.ItemCategories)
-                .ThenInclude(ic => ic.Category)
-                .Where(x => x.Id == id && x.IsDeleted == false)
-                .Select(x => new GetItemDto(
-                    x.Id,
-                    x.Name,
-                    x.Description,
-                    x.SKU,
-                    x.Price,
-                    x.Stock,
-                    x.ImageUrl,
-                    x.ItemCategories.Select(category => new CategoryDto
-                    (
-                        category.Category.Id,
-                        category.Category.Name
-                    )).ToList()
-                ))
-                .FirstOrDefaultAsync();
+            var response = await _ItemService.GetbyItemAsync(id);
 
-            if (item is null)
-                return Results.NotFound("Item not found.");
-
-            return Results.Ok(item);
+            return response;
         });
 
         app.MapGet("/pagination-item", async (AppDbContext _context, Guid? categoryId, string? searchText, int pageNo, int size, bool isPaginated) =>

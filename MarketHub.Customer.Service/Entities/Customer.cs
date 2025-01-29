@@ -1,4 +1,4 @@
-﻿using MarketHub.Product.Service.Entities;
+﻿using MarketHub.Customer.Service.Entities;
 
 namespace MarketHub.Customer.Service.Entities;
 

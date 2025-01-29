@@ -1,4 +1,4 @@
-﻿namespace MarketHub.Product.Service.Entities;
+﻿namespace MarketHub.Customer.Service.Entities;
 
 public class BaseEntity
 {

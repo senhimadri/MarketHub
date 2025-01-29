@@ -12,10 +12,10 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             .HasKey(ic => new { ic.ItemId, ic.CategoryId });
         modelBuilder.ApplyGlobalFilters();
     }
-    public DbSet<Item> Item { get; } = null!;
-    public DbSet<Category> Category { get; } = null!;
-    public DbSet<ItemCategory> ItemCategory { get;  } = null!;
-    public DbSet<ItemPriceLog> ItemPriceLog { get; } = null!;
+    public DbSet<Item> Item { get; set; } = null!;
+    public DbSet<Category> Category { get; set; } = null!;
+    public DbSet<ItemCategory> ItemCategory { get; set; } = null!;
+    public DbSet<ItemPriceLog> ItemPriceLog { get; set; } = null!;
 
 }
 

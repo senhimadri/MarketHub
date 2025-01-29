@@ -6,8 +6,7 @@ public class ItemPriceLog : BaseEntity
     public decimal OldPrice { get; set; }
     public decimal NewPrice { get; set; }
     public DateTime EffectiveFrom { get; set; }
-
-    public virtual Item? Item { get; set; } 
+    public virtual Item Item { get; set; } = null!;
 }
 
 

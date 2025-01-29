@@ -2,7 +2,6 @@
 using MarketHub.Product.Service.DataTransferObjects;
 using MarketHub.Product.Service.Entities;
 using MarketHub.Product.Service.Repositories.IServices;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 namespace MarketHub.Product.Service.Repositories.Services
@@ -96,7 +95,7 @@ namespace MarketHub.Product.Service.Repositories.Services
             return OperationResult.Success();
         }
 
-        public async Task<GetItemDto> GetbyItemAsync(Guid id)
+        public async Task<GetItemDto?> GetbyItemAsync(Guid id)
         {
             var item = await _context.Item
                 .Include(x => x.ItemCategories)
@@ -117,9 +116,6 @@ namespace MarketHub.Product.Service.Repositories.Services
                     )).ToList()
                 ))
                 .FirstOrDefaultAsync();
-
-            if (item is null)
-                throw new KeyNotFoundException("Item not found.");
 
             return item;
         }

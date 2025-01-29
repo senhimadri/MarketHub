@@ -6,6 +6,8 @@ using MarketHub.Product.Service.Repositories.IServices;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using System.Security.Cryptography;
 
 namespace MarketHub.Product.Service.Endpoints;
 
@@ -13,7 +15,9 @@ public static class ItemEndpoints
 {
     public static void MapItemEndpoints(this WebApplication app)
     {
-        app.MapPost("/create-item", async (IItemRepository _ItemService, [FromBody] CreateItemDto request) =>
+        var group = app.MapGroup("/item").WithTags("Items");
+
+        app.MapPost("/", async (IItemRepository _ItemService, [FromBody] CreateItemDto request) =>
         {
             var response = await _ItemService.CreateItemAsync(request);
 
@@ -22,7 +26,7 @@ public static class ItemEndpoints
                         onFailure: (error) => Results.Problem(error.Description));
         });
 
-        app.MapPut("/update-item", async (IItemRepository _ItemService, [FromBody] UpdateItemDto request) =>
+        app.MapPut("/", async (IItemRepository _ItemService, [FromBody] UpdateItemDto request) =>
         {
             var response = await _ItemService.UpdateItemAsync(request);
 
@@ -31,7 +35,7 @@ public static class ItemEndpoints
                         onFailure: (error) => Results.Problem(error.Description)); 
         });
 
-        app.MapDelete("/delete-item", async (IItemRepository _ItemService, Guid id) =>
+        app.MapDelete("/{id}", async (IItemRepository _ItemService, Guid id) =>
         {
             var response = await _ItemService.DeleteItemAsync(id);
 
@@ -40,14 +44,13 @@ public static class ItemEndpoints
                         onFailure: (error) => Results.Problem(error.Description));
         });
 
-        app.MapGet("/getby-item", async (IItemRepository _ItemService, Guid id) =>
+        app.MapGet("/{id}", async (IItemRepository _ItemService, Guid id) =>
         {
             var response = await _ItemService.GetbyItemAsync(id);
-
-            return response;
+            return response is not null ? Results.Ok(response) : Results.NotFound("Item not found.");
         });
 
-        app.MapGet("/pagination-item", async (AppDbContext _context, Guid? categoryId, string? searchText, int pageNo, int size, bool isPaginated) =>
+        app.MapGet("/pagination", async (AppDbContext _context, Guid? categoryId, string? searchText, int pageNo, int size, bool isPaginated) =>
         {
             var query = _context.ItemCategory
                         .Include(item => item.Item)

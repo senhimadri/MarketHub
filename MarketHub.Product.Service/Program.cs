@@ -12,12 +12,12 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddTransient<IItemRepository, ItemRepository>();
+builder.Services.RegisterServices();
 var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI();
 
 
-app.MapItemEndpoints();
+app.UseApiEndpoients();
 app.Run();

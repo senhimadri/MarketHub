@@ -1,8 +1,9 @@
 ﻿using MarketHub.Product.Service.Entities;
+using MarketHub.Product.Service.Repositories.IServices;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace MarketHub.Product.Service.Repositories.Generic;
+namespace MarketHub.Product.Service.Repositories.Services;
 
 public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
 {

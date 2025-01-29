@@ -3,6 +3,7 @@ using MarketHub.Product.Service.DataTransferObjects;
 using MarketHub.Product.Service.Entities;
 using MarketHub.Product.Service.Helper;
 using MarketHub.Product.Service.Repositories.IServices;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -43,9 +44,7 @@ public static class ItemEndpoints
         {
             var response = await _ItemService.GetbyItemAsync(id);
 
-            return response.Match(onSuccess: () => Results.NoContent(),
-                        onValidationFailure: (validationErrors) => Results.ValidationProblem(validationErrors),
-                        onFailure: (error) => Results.Problem(error.Description));
+            return response;
         });
 
         app.MapGet("/pagination-item", async (AppDbContext _context, Guid? categoryId, string? searchText, int pageNo, int size, bool isPaginated) =>

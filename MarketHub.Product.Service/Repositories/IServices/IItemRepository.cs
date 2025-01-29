@@ -8,6 +8,6 @@ namespace MarketHub.Product.Service.Repositories.IServices
         public Task<OperationResult> CreateItemAsync(CreateItemDto request);
         public Task<OperationResult> UpdateItemAsync(UpdateItemDto request);
         public Task<OperationResult> DeleteItemAsync(Guid id);
-        public Task<OperationResult> GetbyItemAsync(Guid id);
+        public Task<GetItemDto> GetbyItemAsync(Guid id);
     }
 }

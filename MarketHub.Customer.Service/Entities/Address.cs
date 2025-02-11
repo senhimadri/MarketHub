@@ -6,5 +6,4 @@ public class Address : BaseEntity
     public string? State { get; set; } 
     public string? ZipCode { get; set; }
     public Guid CustomerId { get; set; }
-    public Customer Customer { get; set; } = null!;
 }

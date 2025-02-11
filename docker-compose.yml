@@ -1,39 +1,84 @@
   version: '3.8'
   services:
-    identity-db:
+    postgres-db:
       image: postgres:16
-      container_name: identity-db
+      container_name: postgres-db
       environment:
         POSTGRES_USER: admin
         POSTGRES_PASSWORD: admin123
-        POSTGRES_DB: identitydb
       volumes:
-        - identity-db-data:/var/lib/postgresql/data
+        - postgres-db-data:/var/lib/postgresql/data
         - ./init:/docker-entrypoint-initdb.d/
       ports:
         - "5432:5432"
       networks:
-        - marketHub-net
+        - postgres-net
 
 
-
-    product-db:
-      image: mcr.microsoft.com/mssql/server:latest
-      container_name: product-db
+    mongo-db:
+      image: mongo:latest
+      container_name: mongo-db
       ports:
-      - "1434:1433"  # Exposes MS SQL for Product on localhost:1434
+        - 27017:27017
       environment:
-        ACCEPT_EULA: "Y"
-        SA_PASSWORD: "StrongPass123!"
+        MONGO_INITDB_ROOT_USERNAME: root
+        MONGO_INITDB_ROOT_PASSWORD: examplepassword
       volumes:
-        - product-db-data:/var/opt/mssql
+        - mongo-db-data:/data/db
       networks:
-        - marketHub-net
+        - mongo-network
+
+    mongo-express:
+      image: mongo-express:latest
+      container_name: mongo-express
+      ports:
+        - "8081:8081"
+      environment:
+        ME_CONFIG_MONGODB_ADMINUSERNAME: root
+        ME_CONFIG_MONGODB_ADMINPASSWORD: examplepassword
+        ME_CONFIG_MONGODB_SERVER: mongo-db
+        ME_CONFIG_BASICAUTH_USERNAME: "sa"   # Disables basic auth prompt
+        ME_CONFIG_BASICAUTH_PASSWORD: "12345678"
+      depends_on:
+        - mongo-db
+      networks:
+      - mongo-network
+
+    elasticsearch:
+      container_name: elastic-search
+      image: docker.elastic.co/elasticsearch/elasticsearch:8.15.0
+      ports:
+        - "9200:9200"
+        - "9300:9300"
+      volumes:
+        - elasticsearch-data:/usr/share/elasticsearch/data
+      environment:
+        - discovery.type=single-node
+        - xpack.security.enabled=false
+      networks:
+        - elk-network
+
+    kibana:
+      container_name: kibana
+      image: docker.elastic.co/kibana/kibana:8.15.0
+      ports:
+        - "5601:5601"
+      environment:
+        - ELASTICSEARCH_HOSTS=http://elastic-search:9200  # Fixed the hostname
+      depends_on:
+        - elasticsearch
+      networks:
+        - elk-network
 
   volumes:
-    identity-db-data:
-    product-db-data:
+    postgres-db-data:
+    mongo-db-data:
+    elasticsearch-data:
 
   networks:
-    marketHub-net:
+    postgres-net:
+      driver: bridge
+    mongo-network:
+      driver: bridge
+    elk-network:
       driver: bridge

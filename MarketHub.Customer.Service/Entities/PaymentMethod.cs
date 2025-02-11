@@ -2,9 +2,7 @@
 
 public  class PaymentMethod : BaseEntity
 {
-    public string CardNumber { get; set; } = string.Empty;
-    public string CardHolderName { get; set; } = string.Empty;
-    public DateTime ExpiryDate { get; set; }
-    public Guid CustomerId { get; set; }
-    public Customer Customer { get; set; } = null!;
+    public PaymentType Type { get; set; }
+    public PaymentDetails Details { get; set; } = new();
+    public bool IsDefault { get; set; } = false;
 }

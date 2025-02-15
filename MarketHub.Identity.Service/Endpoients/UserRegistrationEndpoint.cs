@@ -1,6 +1,7 @@
 ﻿using MarketHub.Identity.Service.DataTransferObjects;
 using MarketHub.Identity.Service.Repositories.Login;
 using MarketHub.Identity.Service.Repositories.Registration;
+using MarketHub.Common.Library.OperationResult;
 
 namespace MarketHub.Identity.Service.Endpoients;
 

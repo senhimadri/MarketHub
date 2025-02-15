@@ -4,6 +4,6 @@ using MongoDB.Driver;
 
 namespace MarketHub.CustomerService.Repositories.CustomerRepositoriy;
 
-public class CustomerRepository(IMongoDatabase database, string collectionName)
-                                : GenericRepository<Customer>(database, collectionName), ICustomerRepository;
+public class CustomerRepository(IMongoDatabase database)
+                                : GenericRepository<Customer>(database, nameof(Customer)), ICustomerRepository;
 

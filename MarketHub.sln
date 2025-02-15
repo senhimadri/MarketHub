@@ -35,7 +35,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketHub.Common.Library", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MarketHub.Customer", "MarketHub.Customer", "{464E8855-596C-4FE9-8D98-01CC11A03E40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketHub.Customer.Service", "MarketHub.Customer.Service\MarketHub.Customer.Service.csproj", "{5DD80106-0C7F-47D4-B2F1-9149BFAFA83B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketHub.CustomerService", "MarketHub.Customer.Service\MarketHub.CustomerService.csproj", "{5DD80106-0C7F-47D4-B2F1-9149BFAFA83B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

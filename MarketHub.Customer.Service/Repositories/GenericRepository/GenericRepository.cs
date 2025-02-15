@@ -1,22 +1,11 @@
-﻿using MarketHub.Customer.Service.Entities;
+﻿using MarketHub.CustomerService.Entities;
 using MongoDB.Driver;
 using System.Linq.Expressions;
 
-namespace MarketHub.Customer.Service;
+namespace MarketHub.CustomerService.Repositories.GenericRepository;
 
-public interface IRepository<T> where T : BaseEntity
-{
-    Task CreateAsync(T entity);
-    Task<IReadOnlyCollection<T>> GetAllAsync();
-    Task<IReadOnlyCollection<T>> GetAllAsync(Expression<Func<T, bool>> filter);
-    Task<T> GetAsync(Guid id);
-    Task<T> GetAsync(Expression<Func<T, bool>> filter);
-    Task RemoveAsync(Guid id);
-    Task UpdateAsync(T entity);
-}
-
-public class Repository<T>(IMongoDatabase database, string collectionName)
-                                                    : IRepository<T> where T : BaseEntity
+public class GenericRepository<T>(IMongoDatabase database, string collectionName)
+                                                    : IGenericRepository<T> where T : BaseEntity
 {
     private readonly IMongoCollection<T> dbCollection = database.GetCollection<T>(collectionName);
     private readonly FilterDefinitionBuilder<T> filterBuilder = Builders<T>.Filter;

@@ -1,6 +1,4 @@
-﻿using MarketHub.Common.Library.OperationResult;
-
-namespace MarketHub.Identity.Service;
+﻿namespace MarketHub.Common.Library.OperationResult;
 
 public static class ResponseBuilder
 {

@@ -15,6 +15,9 @@ public class GenericRepository<T>(IMongoDatabase database, string collectionName
         if (entity is null)
             throw new NullReferenceException(nameof(entity));
 
+        entity.Id = Guid.NewGuid();
+        entity.CreatedAt = DateTime.Now;
+
         await dbCollection.InsertOneAsync(entity);
     }
 
@@ -54,6 +57,8 @@ public class GenericRepository<T>(IMongoDatabase database, string collectionName
     {
         if (entity is null)
             throw new ArgumentNullException(nameof(entity));
+
+        entity.UpdatedAt = DateTime.UtcNow;
 
         FilterDefinition<T> filter = filterBuilder.Eq(Existingentity => Existingentity.Id, entity.Id);
         await dbCollection.ReplaceOneAsync(filter, entity);

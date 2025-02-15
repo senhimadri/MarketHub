@@ -11,6 +11,7 @@ public static class MongoDbExtension
     {
         BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
         BsonSerializer.RegisterSerializer(new DateTimeOffsetSerializer(BsonType.String));
+        BsonSerializer.RegisterSerializer(new DateTimeSerializer(BsonType.String));
 
         services.AddSingleton(serviceProvider =>
         {

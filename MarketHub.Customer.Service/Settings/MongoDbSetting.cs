@@ -1,4 +1,4 @@
-﻿namespace MarketHub.Customer.Service;
+﻿namespace MarketHub.CustomerService.Settings;
 
 public class MongoDbSetting
 {

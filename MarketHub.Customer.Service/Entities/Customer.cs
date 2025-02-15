@@ -1,6 +1,6 @@
-﻿using MarketHub.Customer.Service.Entities;
+﻿using MarketHub.CustomerService.Entities;
 
-namespace MarketHub.Customer.Service.Entities;
+namespace MarketHub.CustomerService.Entities;
 
 public class Customer : BaseEntity
 {

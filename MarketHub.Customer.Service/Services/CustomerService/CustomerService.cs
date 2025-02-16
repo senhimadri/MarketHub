@@ -2,6 +2,8 @@
 using MarketHub.CustomerService.DataTransferObjects;
 using MarketHub.CustomerService.Entities;
 using MarketHub.CustomerService.UnitOfWork;
+using System.Linq.Expressions;
+using ZstdSharp.Unsafe;
 
 namespace MarketHub.CustomerService.Services.CustomerService;
 
@@ -34,17 +36,32 @@ public class CustomerService(IUnitOfWork unitOfWork) : ICustomerService
 
         return OperationResult.Success();
     }
-    public Task<OperationResult> UpdateCustomer(UpdateCustomerBasicInfoDto updateCustomerBasicInfo)
+    public async Task<OperationResult> UpdateCustomer(Guid id,UpdateCustomerBasicInfoDto updateCustomerBasicInfo)
     {
-        throw new NotImplementedException();
+        var existingCustomer = await _unitOfWork.CustomerRepository.GetAsync(id);
+
+        if (existingCustomer is null)
+            return Errors.ContentNotFound;
+
+        existingCustomer.FirstName = updateCustomerBasicInfo.FirstName;
+        existingCustomer.LastName = updateCustomerBasicInfo.LastName;
+        existingCustomer.Email = updateCustomerBasicInfo.Email;
+        existingCustomer.PhoneNumber = updateCustomerBasicInfo.PhoneNumber;
+
+        await _unitOfWork.CustomerRepository.UpdateAsync(existingCustomer);
+
+        return OperationResult.Success();
     }
-    public Task<OperationResult> DeleteCustomer(Guid id)
+    public async Task<OperationResult> DeleteCustomer(Guid id)
     {
-        throw new NotImplementedException();
+        await _unitOfWork.CustomerRepository.RemoveAsync(id);
+        return OperationResult.Success();
     }
-    public Task<CustomerBasicDto> GetCustomerBasicInfo(Guid id)
+    public async Task<CustomerBasicDto> GetCustomerBasicInfo(Guid id)
     {
-        throw new NotImplementedException();
+        var customer = await _unitOfWork.CustomerRepository.GetAsync(id);
+
+        return new CustomerBasicDto(customer.Id,customer.FirstName,customer.LastName,customer.Email,customer.PhoneNumber);
     }
     public Task<List<CustomerBasicDto>> GetCustomerPagination(string searchText, int pageNo, int size)
     {
@@ -92,6 +109,11 @@ public class CustomerService(IUnitOfWork unitOfWork) : ICustomerService
     }
 
     public Task<List<CustomerBasicDto>> GetCustomersOfSpecificAddress(string address)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<OperationResult> UpdateCustomer(UpdateCustomerBasicInfoDto updateCustomerBasicInfo)
     {
         throw new NotImplementedException();
     }

@@ -63,17 +63,36 @@ public class CustomerService(IUnitOfWork unitOfWork) : ICustomerService
 
         return new CustomerBasicDto(customer.Id,customer.FirstName,customer.LastName,customer.Email,customer.PhoneNumber);
     }
-    public Task<List<CustomerBasicDto>> GetCustomerPagination(string searchText, int pageNo, int size)
+    public async Task<(List<CustomerBasicDto>,long)> GetCustomerPagination(string searchText, int pageNo, int size)
     {
-        throw new NotImplementedException();
+        Expression<Func<Customer, bool>> filter = c => c.FirstName.Contains(searchText) || c.IsActive == true;
+
+        var (customer,totalcount) = await _unitOfWork.CustomerRepository.GetPaginationAsync(filter, pageNo,size);
+
+        return ( customer
+                .Select(x=> new CustomerBasicDto(x.Id, x.FirstName, x.LastName, x.Email,x.PhoneNumber))
+                .ToList()
+                ,totalcount);
     }
 
-    public Task<OperationResult> AddCustomerAddress(Guid customerId, List<CustomerAddressDto> addresses)
+    public async Task<OperationResult> AddCustomerAddress(Guid customerId, List<CustomerAddressDto> addresses)
     {
-        throw new NotImplementedException();
+        var customerAddress = addresses.Select(x => new Address
+        {
+            Id = Guid.NewGuid(),
+            Street = x.Street ,
+            City =x.City ,
+            State =x.State ,
+            ZipCode =x.ZipCode,
+            CreatedAt = DateTime.UtcNow
+        }).ToList();
+
+        await _unitOfWork.CustomerRepository.AddCustomerAddresses(customerId, customerAddress);
+
+        return OperationResult.Success();
     }
 
-    public Task<OperationResult> DeleteCustomerAddress(Guid addressId)
+    public Task<OperationResult> DeleteCustomerAddress(Guid customerId,Guid addressId)
     {
         throw new NotImplementedException();
     }

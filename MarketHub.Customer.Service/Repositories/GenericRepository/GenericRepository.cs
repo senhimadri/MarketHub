@@ -7,8 +7,8 @@ namespace MarketHub.CustomerService.Repositories.GenericRepository;
 public class GenericRepository<T>(IMongoDatabase database, string collectionName)
                                                     : IGenericRepository<T> where T : BaseEntity
 {
-    private readonly IMongoCollection<T> dbCollection = database.GetCollection<T>(collectionName);
-    private readonly FilterDefinitionBuilder<T> filterBuilder = Builders<T>.Filter;
+    protected readonly IMongoCollection<T> dbCollection = database.GetCollection<T>(collectionName);
+    protected readonly FilterDefinitionBuilder<T> filterBuilder = Builders<T>.Filter;
 
     public async Task CreateAsync(T entity)
     {

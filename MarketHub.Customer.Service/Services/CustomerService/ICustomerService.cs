@@ -9,7 +9,7 @@ public interface ICustomerService
     Task<OperationResult> UpdateCustomer(UpdateCustomerBasicInfoDto updateCustomerBasicInfo);
     Task<OperationResult> DeleteCustomer(Guid id);
     Task<CustomerBasicDto> GetCustomerBasicInfo(Guid id);
-    Task<List<CustomerBasicDto>> GetCustomerPagination(string searchText, int pageNo, int size);
+    Task<(List<CustomerBasicDto>, long)> GetCustomerPagination(string searchText, int pageNo, int size);
 
     Task<OperationResult> AddCustomerAddress(Guid customerId, List<CustomerAddressDto> addresses);
     Task<OperationResult> UpdateCustomerAddress(List<CustomerAddressDto> addresses);

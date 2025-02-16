@@ -31,6 +31,20 @@ public class GenericRepository<T>(IMongoDatabase database, string collectionName
         return await dbCollection.Find(filter).ToListAsync();
     }
 
+    public async Task<(IReadOnlyCollection<T>,long)> GetPaginationAsync(Expression<Func<T, bool>> filter, int pageNumber, int pageSize)
+    {
+        long totalCount = await dbCollection
+                        .CountDocumentsAsync(filter);
+
+        var datas = await dbCollection
+                            .Find(filter)
+                            .Skip((pageNumber - 1) * pageSize)
+                            .Limit(pageSize)
+                            .ToListAsync();
+
+        return (datas, totalCount);
+    }
+
     public async Task<T> GetAsync(Guid id)
     {
         FilterDefinition<T> filter = filterBuilder.Eq(entity => entity.Id, id);
@@ -40,7 +54,7 @@ public class GenericRepository<T>(IMongoDatabase database, string collectionName
             .FirstOrDefaultAsync();
     }
 
-    public async Task<T> GetAsync(Expression<Func<T, bool>> filter)
+    public async Task<T> GetAsync(Expression<Func<T, bool>> filter )
     {
         return await dbCollection
                 .Find(filter)

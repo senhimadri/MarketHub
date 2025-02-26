@@ -8,12 +8,13 @@ public interface ICustomerService
     Task<OperationResult> CreateCustomer(CreateCustomerBasicInfoDto createCustomerBasicInfo);
     Task<OperationResult> UpdateCustomer(UpdateCustomerBasicInfoDto updateCustomerBasicInfo);
     Task<OperationResult> DeleteCustomer(Guid id);
-    Task<CustomerBasicDto> GetCustomerBasicInfo(Guid id);
-    Task<(List<CustomerBasicDto>, long)> GetCustomerPagination(string searchText, int pageNo, int size);
+    Task<CustomerDetailsDto> GetCustomerBasicInfo(Guid id);
+    Task<(List<CustomerBasicDto>?, long)> GetCustomerPagination(string? searchText, int pageNo, int size);
 
+ 
     Task<OperationResult> AddCustomerAddress(Guid customerId, List<CustomerAddressDto> addresses);
-    Task<OperationResult> UpdateCustomerAddress(List<CustomerAddressDto> addresses);
-    Task<OperationResult> DeleteCustomerAddress(Guid addressId);
+    Task<OperationResult> UpdateCustomerAddress(Guid customerId, CustomerAddressDto address);
+    Task<OperationResult> DeleteCustomerAddress(Guid customerId, Guid addressId);
     Task<List<CustomerAddressDto>> GetCustomersAddresses(Guid customerId);
 
     Task<OperationResult> AddPaymentMethod(Guid customerId, List<PaymentMethodDto> paymentMethod);

@@ -10,67 +10,55 @@ namespace MarketHub.CustomerService.Repositories.CustomerRepositoriy;
 public class CustomerRepository(IMongoDatabase database)
                                 : GenericRepository<Customer>(database, nameof(Customer)), ICustomerRepository
 {
-    public async Task AddCustomerAddress(Guid customerId, Address address)
+    public async Task AddAddressAsync(Guid customerId, Address address)
     {
         var filter = filterBuilder.Eq(c => c.Id, customerId);
-
-        var customerExists = await dbCollection.Find(filter).AnyAsync();
-
-        if (!customerExists)
-            throw new Exception("Customer not found.");
-
         var update = Builders<Customer>.Update.Push(c => c.Addresses, address);
-
-        var result = await dbCollection.UpdateOneAsync(filter, update);
-
-        if (result.ModifiedCount == 0)
-            throw new Exception("Failed to add address.");
+        await dbCollection.UpdateOneAsync(filter , update);
+    }
+    public async Task AddAddressAsync(Guid customerId, List<Address> addresses)
+    {
+        var filter = filterBuilder.Eq(c => c.Id, customerId);
+        var update = Builders<Customer>.Update.PushEach(c => c.Addresses, addresses);
+        await dbCollection.UpdateOneAsync(filter, update);
     }
 
-    public async Task AddCustomerAddresses(Guid customerId, List<Address> addresses)
+    public async Task UpdateAddressAsync(Guid customerId, Address address)
+    {
+        var filter = filterBuilder.Eq(c => c.Id, customerId) 
+            & filterBuilder.ElemMatch(c => c.Addresses, a => a.Id == address.Id);
+
+        var update = Builders<Customer>.Update.Set("Addresses.$[elem]", address);
+
+        await dbCollection.UpdateOneAsync(filter, update);
+    }
+
+    public async Task DeleteAddressAsync(Guid customerId, Guid addressId)
     {
         var filter = filterBuilder.Eq(c => c.Id, customerId);
 
-        var customerExists = await dbCollection.Find(filter).AnyAsync();
+        var update = Builders<Customer>.Update.PullFilter(c => c.Addresses, a => a.Id == addressId);
 
-        if (!customerExists)
-            throw new Exception("Customer not found.");
-
-        var update = Builders<Customer>.Update.PushEach(x => x.Addresses, addresses);
-
-        var result = await dbCollection.UpdateOneAsync(filter, update);
-
-        if (result.ModifiedCount == 0)
-            throw new Exception("Failed to add addresses.");
+        await dbCollection.UpdateOneAsync(filter, update);
     }
 
-    public async Task RemoveCustomerAddresses(Guid customerId,Guid addressId)
+    public Task AddPaymentMethodAsync(Guid customerId, PaymentMethod paymentMethod)
     {
-        var filter = filterBuilder.Eq(c => c.Id, customerId);
+        throw new NotImplementedException();
+    }
 
-        var customerExists = await dbCollection.Find(filter).FirstOrDefaultAsync();
 
-        if (customerExists is null)
-            throw new Exception("Customer not found.");
 
-        var address = customerExists?.Addresses?.FirstOrDefault(x=>x.Id== addressId);
+    public Task DeletePaymentMethodAsync(Guid customerId, Guid paymentMethodId)
+    {
+        throw new NotImplementedException();
+    }
 
-        if (address is null)
-            throw new Exception("Address not found.");
 
-        if (address.IsDeleted)
-            throw new Exception("Address is already deleted.");
 
-        address.IsDeleted = true;
-        address.UpdatedAt = DateTime.UtcNow;
-
-        var update = Builders<Customer>.Update.Set(c => c.Addresses, customerExists?.Addresses);
-
-        var result = await dbCollection.UpdateOneAsync(filter, update);
-
-        if (result.ModifiedCount == 0)
-            throw new Exception("Failed to update customer addresses.");
-
+    public Task UpdatePaymentMethodAsync(Guid customerId, PaymentMethod paymentMethod)
+    {
+        throw new NotImplementedException();
     }
 }
 

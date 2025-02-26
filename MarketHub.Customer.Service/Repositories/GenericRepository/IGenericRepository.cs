@@ -13,4 +13,6 @@ public interface IGenericRepository<T> where T : BaseEntity
     Task<T> GetAsync(Expression<Func<T, bool>> filter);
     Task RemoveAsync(Guid id);
     Task UpdateAsync(T entity);
+
+    Task<bool> AnyAsync(Expression<Func<T, bool>> filter);
 }

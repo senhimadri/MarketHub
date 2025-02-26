@@ -57,15 +57,27 @@ public class CustomerService(IUnitOfWork unitOfWork) : ICustomerService
         await _unitOfWork.CustomerRepository.RemoveAsync(id);
         return OperationResult.Success();
     }
-    public async Task<CustomerBasicDto> GetCustomerBasicInfo(Guid id)
+    public async Task<CustomerDetailsDto> GetCustomerBasicInfo(Guid id)
     {
         var customer = await _unitOfWork.CustomerRepository.GetAsync(id);
 
-        return new CustomerBasicDto(customer.Id,customer.FirstName,customer.LastName,customer.Email,customer.PhoneNumber);
+        return new CustomerDetailsDto(customer.Id,
+                                    customer.FirstName,
+                                    customer.LastName,
+                                    customer.Email,
+                                    customer.PhoneNumber,
+                                    customer?.Addresses?
+                                                .Select(x=> new CustomerAddressDto(
+                                                                x.Id,
+                                                                x.Street,
+                                                                x.City,
+                                                                x.State,
+                                                                x.ZipCode))
+                                                .ToList());
     }
-    public async Task<(List<CustomerBasicDto>,long)> GetCustomerPagination(string searchText, int pageNo, int size)
+    public async Task<(List<CustomerBasicDto>?,long)> GetCustomerPagination(string? searchText, int pageNo, int size)
     {
-        Expression<Func<Customer, bool>> filter = c => c.FirstName.Contains(searchText) || c.IsActive == true;
+        Expression<Func<Customer, bool>> filter = c => (searchText == null ||  c.FirstName.Contains(searchText)) && c.IsActive == true;
 
         var (customer,totalcount) = await _unitOfWork.CustomerRepository.GetPaginationAsync(filter, pageNo,size);
 
@@ -87,19 +99,23 @@ public class CustomerService(IUnitOfWork unitOfWork) : ICustomerService
             CreatedAt = DateTime.UtcNow
         }).ToList();
 
-        await _unitOfWork.CustomerRepository.AddCustomerAddresses(customerId, customerAddress);
+        await _unitOfWork.CustomerRepository.AddAddressAsync(customerId, customerAddress);
 
         return OperationResult.Success();
     }
 
-    public Task<OperationResult> DeleteCustomerAddress(Guid customerId,Guid addressId)
+    public async Task<OperationResult> DeleteCustomerAddress(Guid customerId,Guid addressId)
     {
-        throw new NotImplementedException();
+        var isCustomerExist = await _unitOfWork.CustomerRepository.AnyAsync(c=> c.Id == customerId);
+
+        if (!isCustomerExist)
+            Errors.NewError(400,"Customer not available");
+
+
+        await _unitOfWork.CustomerRepository.DeleteAddressAsync(customerId, addressId);
+        return OperationResult.Success();
     }
-    public Task<OperationResult> UpdateCustomerAddress(List<CustomerAddressDto> addresses)
-    {
-        throw new NotImplementedException();
-    }
+
 
     public Task<List<CustomerAddressDto>> GetCustomersAddresses(Guid customerId)
     {
@@ -133,6 +149,11 @@ public class CustomerService(IUnitOfWork unitOfWork) : ICustomerService
     }
 
     public Task<OperationResult> UpdateCustomer(UpdateCustomerBasicInfoDto updateCustomerBasicInfo)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<OperationResult> UpdateCustomerAddress(Guid customerId, CustomerAddressDto address)
     {
         throw new NotImplementedException();
     }

@@ -35,4 +35,63 @@ app.MapPost("/CreateCustomer", async (ICustomerService _customerService, [FromBo
                 onFailure: (error) => Results.Problem(error.Description));
 });
 
+app.MapPut("/UpdateCustomer", async (ICustomerService _customerService, [FromBody] UpdateCustomerBasicInfoDto request) =>
+{
+    var response = await _customerService.UpdateCustomer(request);
+
+    return response.Match(onSuccess: () => Results.Created(),
+                onValidationFailure: (validationErrors) => Results.ValidationProblem(validationErrors),
+                onFailure: (error) => Results.Problem(error.Description));
+});
+
+app.MapPut("/DeleteCustomer/{id}", async (ICustomerService _customerService, Guid id) =>
+{
+    var response = await _customerService.DeleteCustomer(id);
+
+    return response.Match(onSuccess: () => Results.Created(),
+                onValidationFailure: (validationErrors) => Results.ValidationProblem(validationErrors),
+                onFailure: (error) => Results.Problem(error.Description));
+});
+
+app.MapGet("/GetCustomer/{id}", async (ICustomerService _customerService , Guid id) =>
+{
+    var response = await _customerService.GetCustomerBasicInfo(id);
+    return response is not null ? Results.Ok(response) : Results.NoContent();
+});
+
+app.MapGet("/GetCustomersPagination", async (ICustomerService _customerService, string? searchText, int pageNo, int size) =>
+{
+    var (data, totalCount) = await _customerService.GetCustomerPagination(searchText, pageNo, size);
+
+    return Results.Ok(data);
+});
+
+
+app.MapPut("/AddCustomerAddresses/{customerId}", async (ICustomerService _customerService,[FromHeader] Guid customerId,[FromBody]List<CustomerAddressDto> addresses) =>
+{
+    var response = await _customerService.AddCustomerAddress(customerId, addresses);
+
+    return response.Match(onSuccess: () => Results.Created(),
+                onValidationFailure: (validationErrors) => Results.ValidationProblem(validationErrors),
+                onFailure: (error) => Results.Problem(error.Description));
+});
+
+app.MapPut("/UpdateCustomerAddresses/{customerId}", async (ICustomerService _customerService, [FromHeader] Guid customerId, [FromBody] CustomerAddressDto address) =>
+{
+    var response = await _customerService.UpdateCustomerAddress(customerId, address);
+
+    return response.Match(onSuccess: () => Results.Created(),
+                onValidationFailure: (validationErrors) => Results.ValidationProblem(validationErrors),
+                onFailure: (error) => Results.Problem(error.Description));
+});
+
+app.MapDelete("/UpdateCustomerAddresses/{customerId}/{addressId}", async (ICustomerService _customerService, [FromHeader] Guid customerId, [FromHeader] Guid addressId) =>
+{
+    var response = await _customerService.DeleteCustomerAddress(customerId, addressId);
+
+    return response.Match(onSuccess: () => Results.Created(),
+                onValidationFailure: (validationErrors) => Results.ValidationProblem(validationErrors),
+                onFailure: (error) => Results.Problem(error.Description));
+});
+
 app.Run();

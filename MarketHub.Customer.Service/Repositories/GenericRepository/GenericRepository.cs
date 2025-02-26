@@ -77,4 +77,9 @@ public class GenericRepository<T>(IMongoDatabase database, string collectionName
         FilterDefinition<T> filter = filterBuilder.Eq(Existingentity => Existingentity.Id, entity.Id);
         await dbCollection.ReplaceOneAsync(filter, entity);
     }
+
+    public async Task<bool> AnyAsync(Expression<Func<T, bool>> filter)
+    {
+        return await dbCollection.Find(filter).AnyAsync();
+    }
 }

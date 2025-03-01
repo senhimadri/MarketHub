@@ -1,7 +1,7 @@
-﻿using MarketHub.CustomerService.Repositories.CustomerRepositoriy;
+﻿using MarketHub.CustomerModule.Api.Repositories.CustomerRepositories;
 using MongoDB.Driver;
 
-namespace MarketHub.CustomerService.UnitOfWork;
+namespace MarketHub.CustomerModule.Api.UnitOfWorks;
 
 public class UnitOfWork(IMongoDatabase database) : IUnitOfWork
 {

@@ -1,6 +1,6 @@
-﻿using MarketHub.CustomerService.Entities;
+﻿using MarketHub.CustomerModule.Api.Entities;
 
-namespace MarketHub.CustomerService.Entities;
+namespace MarketHub.CustomerModule.Api.Entities;
 
 public class Customer : BaseEntity
 {

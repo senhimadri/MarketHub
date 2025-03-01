@@ -1,13 +1,14 @@
-﻿using MarketHub.Common.Library.OperationResult;
-using MarketHub.CustomerService.DataTransferObjects;
-using MarketHub.CustomerService.Entities;
-using MarketHub.CustomerService.UnitOfWork;
+﻿using MarketHub.Common.Library;
+using MarketHub.Common.Library.OperationResult;
+using MarketHub.CustomerModule.Api.DataTransferObjects;
+using MarketHub.CustomerModule.Api.Entities;
+using MarketHub.CustomerModule.Api.UnitOfWorks;
 using System.Linq.Expressions;
 using ZstdSharp.Unsafe;
 
-namespace MarketHub.CustomerService.Services.CustomerService;
+namespace MarketHub.CustomerModule.Api.Services.CustomerServices;
 
-public class CustomerService(IUnitOfWork unitOfWork) : ICustomerService
+public class CustomerBasicInfoService(IUnitOfWork unitOfWork) : ICustomerBasicInfoService
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
@@ -75,16 +76,17 @@ public class CustomerService(IUnitOfWork unitOfWork) : ICustomerService
                                                                 x.ZipCode))
                                                 .ToList());
     }
-    public async Task<(List<CustomerBasicDto>?,long)> GetCustomerPagination(string? searchText, int pageNo, int size)
+    public async Task<PaginationDto<CustomerBasicDto>> GetCustomerPagination(string? searchText, int pageNo, int size)
     {
         Expression<Func<Customer, bool>> filter = c => (searchText == null ||  c.FirstName.Contains(searchText)) && c.IsActive == true;
 
         var (customer,totalcount) = await _unitOfWork.CustomerRepository.GetPaginationAsync(filter, pageNo,size);
 
-        return ( customer
-                .Select(x=> new CustomerBasicDto(x.Id, x.FirstName, x.LastName, x.Email,x.PhoneNumber))
-                .ToList()
-                ,totalcount);
+        var data = customer
+                .Select(x => new CustomerBasicDto(x.Id, x.FirstName, x.LastName, x.Email, x.PhoneNumber))
+                .ToList();
+
+        return new PaginationDto<CustomerBasicDto>(totalcount,data);
     }
 
     public async Task<OperationResult> AddCustomerAddress(Guid customerId, List<CustomerAddressDto> addresses)

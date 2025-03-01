@@ -1,15 +1,16 @@
-﻿using MarketHub.Common.Library.OperationResult;
-using MarketHub.CustomerService.DataTransferObjects;
+﻿using MarketHub.Common.Library;
+using MarketHub.Common.Library.OperationResult;
+using MarketHub.CustomerModule.Api.DataTransferObjects;
 
-namespace MarketHub.CustomerService.Services.CustomerService;
+namespace MarketHub.CustomerModule.Api.Services.CustomerServices;
 
-public interface ICustomerService
+public interface ICustomerBasicInfoService
 {
     Task<OperationResult> CreateCustomer(CreateCustomerBasicInfoDto createCustomerBasicInfo);
     Task<OperationResult> UpdateCustomer(UpdateCustomerBasicInfoDto updateCustomerBasicInfo);
     Task<OperationResult> DeleteCustomer(Guid id);
     Task<CustomerDetailsDto> GetCustomerBasicInfo(Guid id);
-    Task<(List<CustomerBasicDto>?, long)> GetCustomerPagination(string? searchText, int pageNo, int size);
+    Task<PaginationDto<CustomerBasicDto>> GetCustomerPagination(string? searchText, int pageNo, int size);
 
  
     Task<OperationResult> AddCustomerAddress(Guid customerId, List<CustomerAddressDto> addresses);

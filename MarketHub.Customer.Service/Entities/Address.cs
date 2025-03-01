@@ -1,4 +1,4 @@
-﻿namespace MarketHub.CustomerService.Entities;
+﻿namespace MarketHub.CustomerModule.Api.Entities;
 public class Address 
 {
     public Guid Id { get; set; }

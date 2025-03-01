@@ -1,4 +1,4 @@
-﻿namespace MarketHub.CustomerService.Entities;
+﻿namespace MarketHub.CustomerModule.Api.Entities;
 
 public  class PaymentMethod : BaseEntity
 {

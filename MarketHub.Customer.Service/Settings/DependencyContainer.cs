@@ -1,6 +1,6 @@
-﻿using MarketHub.CustomerService.Repositories.CustomerRepositoriy;
+﻿using MarketHub.CustomerModule.Api.Repositories.CustomerRepositories;
 
-namespace MarketHub.CustomerService.Settings;
+namespace MarketHub.CustomerModule.Api.Settings;
 
 public static class DependencyContainer
 {

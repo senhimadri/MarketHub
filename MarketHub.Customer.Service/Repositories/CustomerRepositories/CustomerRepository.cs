@@ -1,11 +1,8 @@
-﻿using MarketHub.CustomerService.Entities;
-using MarketHub.CustomerService.Repositories.GenericRepository;
-using Microsoft.AspNetCore.Mvc;
+﻿using MarketHub.CustomerModule.Api.Entities;
+using MarketHub.CustomerModule.Api.Repositories.GenericRepository;
 using MongoDB.Driver;
-using SharpCompress.Common;
-using System.Collections;
 
-namespace MarketHub.CustomerService.Repositories.CustomerRepositoriy;
+namespace MarketHub.CustomerModule.Api.Repositories.CustomerRepositories;
 
 public class CustomerRepository(IMongoDatabase database)
                                 : GenericRepository<Customer>(database, nameof(Customer)), ICustomerRepository
@@ -42,9 +39,12 @@ public class CustomerRepository(IMongoDatabase database)
         await dbCollection.UpdateOneAsync(filter, update);
     }
 
-    public Task AddPaymentMethodAsync(Guid customerId, PaymentMethod paymentMethod)
+    public async Task AddPaymentMethodAsync(Guid customerId, PaymentMethod paymentMethod)
     {
-        throw new NotImplementedException();
+        var filter = filterBuilder.Eq(c => c.Id, customerId);
+        var update = Builders<Customer>.Update.Push(c => c.PaymentMethods, paymentMethod);
+        await dbCollection.UpdateOneAsync(filter,update);
+
     }
 
 

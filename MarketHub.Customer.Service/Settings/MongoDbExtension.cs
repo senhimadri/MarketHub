@@ -3,7 +3,7 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace MarketHub.CustomerService.Settings;
+namespace MarketHub.CustomerModule.Api.Settings;
 
 public static class MongoDbExtension
 {

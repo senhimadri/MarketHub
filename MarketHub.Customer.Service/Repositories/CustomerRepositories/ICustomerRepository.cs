@@ -1,7 +1,7 @@
-﻿using MarketHub.CustomerService.Entities;
-using MarketHub.CustomerService.Repositories.GenericRepository;
+﻿using MarketHub.CustomerModule.Api.Entities;
+using MarketHub.CustomerModule.Api.Repositories.GenericRepository;
 
-namespace MarketHub.CustomerService.Repositories.CustomerRepositoriy;
+namespace MarketHub.CustomerModule.Api.Repositories.CustomerRepositories;
 
 public interface ICustomerRepository : IGenericRepository<Customer>
 {

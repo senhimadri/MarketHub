@@ -1,8 +1,8 @@
-﻿using MarketHub.CustomerService.Entities;
+﻿using MarketHub.CustomerModule.Api.Entities;
 using MongoDB.Driver;
 using System.Linq.Expressions;
 
-namespace MarketHub.CustomerService.Repositories.GenericRepository;
+namespace MarketHub.CustomerModule.Api.Repositories.GenericRepository;
 
 public class GenericRepository<T>(IMongoDatabase database, string collectionName)
                                                     : IGenericRepository<T> where T : BaseEntity

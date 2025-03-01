@@ -1,6 +1,6 @@
-﻿using MarketHub.CustomerService.Entities;
+﻿using MarketHub.CustomerModule.Api.Entities;
 
-namespace MarketHub.CustomerService.DataTransferObjects;
+namespace MarketHub.CustomerModule.Api.DataTransferObjects;
 
 public record CustomerBasicDto(Guid Id,string FirstName, string LastName, string? Email, string? PhoneNumber);
 

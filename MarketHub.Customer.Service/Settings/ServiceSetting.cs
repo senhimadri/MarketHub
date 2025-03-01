@@ -1,4 +1,4 @@
-﻿namespace MarketHub.CustomerService.Settings;
+﻿namespace MarketHub.CustomerModule.Api.Settings;
 
 public class ServiceSetting
 {

@@ -1,4 +1,4 @@
-﻿namespace MarketHub.Order.Service.Entities.Internal;
+﻿namespace MarketHub.OrderModule.Api.Entities.Internal;
 
 public class BaseEntity
 {

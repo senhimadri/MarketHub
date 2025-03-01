@@ -1,6 +1,6 @@
-﻿using MarketHub.Identity.Service.DataTransferObjects;
+﻿using MarketHub.IdentityModule.Api.DataTransferObjects;
 
-namespace MarketHub.Identity.Service.Repositories.Login;
+namespace MarketHub.IdentityModule.Api.Repositories.Login;
 
 public interface ILoginService
 {

@@ -1,3 +1,3 @@
-namespace MarketHub.Identity.Service.DataTransferObjects;
+namespace MarketHub.IdentityModule.Api.DataTransferObjects;
 
 public record IdentityUserDto();

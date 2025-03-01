@@ -1,9 +1,9 @@
 ﻿using MarketHub.Common.Library.OperationResult;
-using MarketHub.Identity.Service.DataTransferObjects;
-using MarketHub.Identity.Service.Entities;
+using MarketHub.IdentityModule.Api.DataTransferObjects;
+using MarketHub.IdentityModule.Api.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace MarketHub.Identity.Service.Repositories.Registration;
+namespace MarketHub.IdentityModule.Api.Repositories.Registration;
 
 public class RegistrationService(AppDbContext context) : IRegistrationService
 {

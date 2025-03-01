@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace MarketHub.Identity.Service.Migrations
+namespace MarketHub.IdentityModule.Api.Migrations
 {
     /// <inheritdoc />
     public partial class InitialScript : Migration

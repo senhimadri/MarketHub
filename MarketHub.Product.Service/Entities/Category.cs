@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MarketHub.Product.Service.Entities;
+namespace MarketHub.ProductModule.Api.Entities;
 
 public class Category : BaseEntity
 {

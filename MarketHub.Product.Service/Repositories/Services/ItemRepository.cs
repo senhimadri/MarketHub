@@ -1,11 +1,10 @@
 ﻿using MarketHub.Common.Library.OperationResult;
-using MarketHub.Product.Service.DataTransferObjects;
-using MarketHub.Product.Service.Entities;
-using MarketHub.Product.Service.Repositories.IServices;
-using Microsoft.AspNetCore.Http.HttpResults;
+using MarketHub.ProductModule.Api.DataTransferObjects;
+using MarketHub.ProductModule.Api.Entities;
+using MarketHub.ProductModule.Api.Repositories.IServices;
 using Microsoft.EntityFrameworkCore;
 
-namespace MarketHub.Product.Service.Repositories.Services;
+namespace MarketHub.ProductModule.Api.Repositories.Services;
 
 public class ItemRepository(AppDbContext context) : IItemRepository
 {
@@ -93,35 +92,7 @@ public class ItemRepository(AppDbContext context) : IItemRepository
 
         await _context.SaveChangesAsync();
 
-<<<<<<< HEAD
-        public async Task<GetItemDto> GetbyItemAsync(Guid id)
-        {
-            var item = await _context.Item
-                .Include(x => x.ItemCategories)
-                .ThenInclude(ic => ic.Category)
-                .Where(x => x.Id == id && x.IsDeleted == false)
-                .Select(x => new GetItemDto(
-                    x.Id,
-                    x.Name,
-                    x.Description,
-                    x.SKU,
-                    x.Price,
-                    x.Stock,
-                    x.ImageUrl,
-                    x.ItemCategories.Select(category => new CategoryDto
-                    (
-                        category.Category.Id,
-                        category.Category.Name
-                    )).ToList()
-                ))
-                .FirstOrDefaultAsync();
 
-            if (item is null)
-                throw new KeyNotFoundException("Item not found.");
-
-            return item;
-        }
-=======
         return OperationResult.Success();
     }
 
@@ -148,6 +119,5 @@ public class ItemRepository(AppDbContext context) : IItemRepository
             .FirstOrDefaultAsync();
 
         return item;
->>>>>>> docer-compose update
     }
 }

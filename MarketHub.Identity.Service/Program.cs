@@ -1,5 +1,5 @@
-using MarketHub.Identity.Service;
-using MarketHub.Identity.Service.Endpoients;
+using MarketHub.IdentityModule.Api;
+using MarketHub.IdentityModule.Api.Endpoients;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

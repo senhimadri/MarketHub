@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace MarketHub.Product.Service.Migrations
+namespace MarketHub.ProductModule.Api.Migrations
 {
     /// <inheritdoc />
     public partial class script23345 : Migration

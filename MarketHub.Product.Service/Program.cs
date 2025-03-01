@@ -1,4 +1,7 @@
-using MarketHub.Product.Service;
+using MarketHub.ProductModule.Api;
+using MarketHub.ProductModule.Api.Endpoints;
+using MarketHub.ProductModule.Api.Repositories.IServices;
+using MarketHub.ProductModule.Api.Repositories.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

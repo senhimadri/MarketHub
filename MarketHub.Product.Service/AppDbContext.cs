@@ -1,8 +1,8 @@
-﻿using MarketHub.Product.Service.Entities;
+﻿using MarketHub.ProductModule.Api.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace MarketHub.Product.Service;
+namespace MarketHub.ProductModule.Api;
 
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {

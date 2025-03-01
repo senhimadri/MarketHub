@@ -1,11 +1,11 @@
-﻿using MarketHub.Identity.Service.DataTransferObjects;
-using MarketHub.Identity.Service.Entities;
-using MarketHub.Identity.Service.Repositories.Login;
-using MarketHub.Identity.Service.Repositories.Token;
+﻿using MarketHub.IdentityModule.Api.DataTransferObjects;
+using MarketHub.IdentityModule.Api.Entities;
+using MarketHub.IdentityModule.Api.Repositories.Login;
+using MarketHub.IdentityModule.Api.Repositories.Token;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 
-namespace MarketHub.Identity.Service.Tests;
+namespace MarketHub.IdentityModule.Api.Tests;
 
 public class LoginServiceTests
 {

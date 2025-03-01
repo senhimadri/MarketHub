@@ -1,7 +1,7 @@
 ﻿using MarketHub.Common.Library.OperationResult;
-using MarketHub.Identity.Service.DataTransferObjects;
+using MarketHub.IdentityModule.Api.DataTransferObjects;
 
-namespace MarketHub.Identity.Service.Repositories.Registration;
+namespace MarketHub.IdentityModule.Api.Repositories.Registration;
 
 public interface IRegistrationService
 {

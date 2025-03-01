@@ -1,4 +1,4 @@
-namespace MarketHub.Identity.Service.DataTransferObjects;
+namespace MarketHub.IdentityModule.Api.DataTransferObjects;
 
 public record UserRegistrationDto(Guid Id, string UserName, string PasswordHash, string Email);
 public record BaseIdentityUserDto(string UserName, string PasswordHash, string Email);

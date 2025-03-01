@@ -1,9 +1,9 @@
-﻿using MarketHub.Identity.Service.Endpoients;
-using MarketHub.Identity.Service.Repositories.Login;
-using MarketHub.Identity.Service.Repositories.Registration;
-using MarketHub.Identity.Service.Repositories.Token;
+﻿using MarketHub.IdentityModule.Api.Endpoients;
+using MarketHub.IdentityModule.Api.Repositories.Login;
+using MarketHub.IdentityModule.Api.Repositories.Registration;
+using MarketHub.IdentityModule.Api.Repositories.Token;
 
-namespace MarketHub.Identity.Service;
+namespace MarketHub.IdentityModule.Api;
 
 public static class DependencyContainer
 {

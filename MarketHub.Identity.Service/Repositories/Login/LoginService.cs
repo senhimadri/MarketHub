@@ -1,8 +1,8 @@
-﻿using MarketHub.Identity.Service.DataTransferObjects;
-using MarketHub.Identity.Service.Repositories.Token;
+﻿using MarketHub.IdentityModule.Api.DataTransferObjects;
+using MarketHub.IdentityModule.Api.Repositories.Token;
 using Microsoft.EntityFrameworkCore;
 
-namespace MarketHub.Identity.Service.Repositories.Login;
+namespace MarketHub.IdentityModule.Api.Repositories.Login;
 
 public class LoginService(AppDbContext context, ITokenUtils tokenUtils) : ILoginService
 {

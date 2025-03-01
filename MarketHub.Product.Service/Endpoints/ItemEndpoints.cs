@@ -1,13 +1,11 @@
-﻿using MarketHub.Identity.Service;
-using MarketHub.Product.Service.DataTransferObjects;
-using MarketHub.Product.Service.Entities;
-using MarketHub.Product.Service.Helper;
-using MarketHub.Product.Service.Repositories.IServices;
-using Microsoft.AspNetCore.Http.HttpResults;
+﻿using MarketHub.Common.Library.OperationResult;
+using MarketHub.ProductModule.Api.DataTransferObjects;
+using MarketHub.ProductModule.Api.Helper;
+using MarketHub.ProductModule.Api.Repositories.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace MarketHub.Product.Service.Endpoints;
+namespace MarketHub.ProductModule.Api.Endpoints;
 
 public static class ItemEndpoints
 {

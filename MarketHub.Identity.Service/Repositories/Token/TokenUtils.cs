@@ -1,11 +1,11 @@
-﻿using MarketHub.Identity.Service.Entities;
+﻿using MarketHub.IdentityModule.Api.Entities;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace MarketHub.Identity.Service.Repositories.Token;
+namespace MarketHub.IdentityModule.Api.Repositories.Token;
 
 public class TokenUtils(IConfiguration configuration): ITokenUtils
 {

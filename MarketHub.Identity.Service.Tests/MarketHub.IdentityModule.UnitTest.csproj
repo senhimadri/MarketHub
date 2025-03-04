@@ -21,8 +21,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MarketHub.Identity.Service\MarketHub.IdentityModule.Api.csproj" />
-    <ProjectReference Include="..\MarketHub.IdentityModule.Api\MarketHub.IdentityModule.Api.csproj" />
   </ItemGroup>
+
 
   <ItemGroup>
     <Using Include="Xunit" />

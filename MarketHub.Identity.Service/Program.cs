@@ -1,6 +1,10 @@
 using MarketHub.IdentityModule.Api;
+using MarketHub.IdentityModule.Api.DataTransferObjects;
 using MarketHub.IdentityModule.Api.Endpoients;
+using MarketHub.IdentityModule.Api.Repositories.Login;
+using MarketHub.IdentityModule.Api.Repositories.Registration;
 using Microsoft.EntityFrameworkCore;
+using MarketHub.Common.Library.OperationResult;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,3 +1,3 @@
-﻿namespace MarketHub.Product.Service.Helper;
+﻿namespace MarketHub.ProductModule.Api.Helper;
 
 public record PaginationDto<T>(int TotalCount, List<T>? Data);

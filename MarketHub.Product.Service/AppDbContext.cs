@@ -1,8 +1,8 @@
-﻿using MarketHub.Product.Service.Entities;
+﻿using MarketHub.ProductModule.Api.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace MarketHub.Product.Service;
+namespace MarketHub.ProductModule.Api;
 
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
@@ -10,14 +10,12 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     {
         modelBuilder.Entity<ItemCategory>()
             .HasKey(ic => new { ic.ItemId, ic.CategoryId });
-
         modelBuilder.ApplyGlobalFilters();
-
     }
-    public DbSet<Item> Item { get; set; }
-    public DbSet<Category> Category { get; set; }
-    public DbSet<ItemCategory> ItemCategory { get; set; }
-    public DbSet<ItemPriceLog> ItemPriceLog { get; set; }
+    public DbSet<Item> Item { get; } = null!;
+    public DbSet<Category> Category { get; } = null!;
+    public DbSet<ItemCategory> ItemCategory { get;  } = null!;
+    public DbSet<ItemPriceLog> ItemPriceLog { get; } = null!;
 
 }
 

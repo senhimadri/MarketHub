@@ -1,4 +1,4 @@
-﻿namespace MarketHub.Inventory.Service.Entities.Internal;
+﻿namespace MarketHub.InventoryModule.Api.Entities.Internal;
 
 public class BaseEntity
 {

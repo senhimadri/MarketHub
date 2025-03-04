@@ -1,60 +1,44 @@
-﻿using MarketHub.Identity.Service.DataTransferObjects;
-using MarketHub.Identity.Service.Entities;
-using MarketHub.Identity.Service.Repositories.Login;
-using MarketHub.Identity.Service.Repositories.Token;
+﻿using MarketHub.IdentityModule.Api;
+using MarketHub.IdentityModule.Api.Repositories.Login;
+using MarketHub.IdentityModule.UnitTest.Shareds;
+using MarketHub.IdentityModule.UnitTest.TestFixtures.Mockings;
+using MarketHub.IdentityModule.UnitTest.TestFixtures.TestDatas;
 using Microsoft.EntityFrameworkCore;
-using Moq;
 
-namespace MarketHub.Identity.Service.Tests;
+namespace MarketHub.IdentityModule.UnitTest.Services;
 
 public class LoginServiceTests
 {
-    private readonly Mock<ITokenUtils> _tokenUtilsMock;
+    private readonly MockTokenUtils _mockTokenUtils;
     private readonly AppDbContext _context;
     private readonly ILoginService _loginServices;
 
     public LoginServiceTests()
     {
-        var options  = new DbContextOptionsBuilder<AppDbContext>()
-                        .UseInMemoryDatabase(Guid.NewGuid().ToString()).Options;
+        _context = InMemoryDbSetup.CreateInMemoryDbContext();
 
-        _context = new AppDbContext(options);
-
-        _context.IdentityUsers.Add(new IdentityUser
-        {
-            Id = Guid.NewGuid(),
-            UserName = "testuser",
-            PasswordHash = "password",
-            IsActive = true
-        });
-
+        _context.IdentityUsers.Add(IdentityUserFactory.CreateDefaultUser());
         _context.SaveChanges();
 
-        _tokenUtilsMock = new Mock<ITokenUtils>(MockBehavior.Strict);
+        _mockTokenUtils = new MockTokenUtils();
 
-        _tokenUtilsMock.Setup(x=>x.GenerateAccessToken(It.IsAny<IdentityUser>()))
-                                    .Returns("access_token");
-
-        _tokenUtilsMock.Setup(x => x.GenerateRefreshToken(It.IsAny<Guid>()))
-                                    .Returns("refresh_token");
-
-        _loginServices = new LoginService(_context, _tokenUtilsMock.Object);
+        _loginServices = new LoginService(_context, _mockTokenUtils._tokenUtilsMock.Object);
     }
 
     [Fact]
     public async Task LoginAsync_ShouldReturnTokenResponse_WhenCredentialsAreValied()
     {
-        var payload = new LoginDto("testuser", "password");
+        var payload = LoginDtoFactory.CreateValidLoginDto();
 
         var response = await _loginServices.LoginAsync(payload);
 
         Assert.NotNull(response);
         Assert.Equal("access_token", response.AccessToken);
-        Assert.Equal("refresh_token" , response.RefreshToken);
+        Assert.Equal("refresh_token", response.RefreshToken);
 
         var user = await _context.IdentityUsers
-                        .FirstOrDefaultAsync(u => u.UserName == payload.Username 
-                                            && u.PasswordHash == payload.Password 
+                        .FirstOrDefaultAsync(u => u.UserName == payload.Username
+                                            && u.PasswordHash == payload.Password
                                             && u.IsActive && !u.IsDeleted);
 
         Assert.NotNull(user);
@@ -65,9 +49,9 @@ public class LoginServiceTests
     [Fact]
     public async Task LoginAsync_ShouldThrowUnauthorizedAccessException_WhenCredentialsAreNotValidate()
     {
-        var loginDto = new LoginDto(Username:"invaliduser", Password:"invalidpassword");
+        var loginDto = LoginDtoFactory.CreateInvalidLoginDto();
         await Assert.ThrowsAsync<UnauthorizedAccessException>(
-                        ()=> _loginServices.LoginAsync(loginDto));
+                        () => _loginServices.LoginAsync(loginDto));
     }
 
 
@@ -75,7 +59,7 @@ public class LoginServiceTests
     public async Task RefreshTokenAsync_ShouldReturnNewTokenAndRefreshToken_WhenRefreshTokenIsValid()
     {
 
-        var user = await _context.IdentityUsers.FirstOrDefaultAsync(u=>u.UserName== "testuser");
+        var user = await _context.IdentityUsers.FirstOrDefaultAsync(u => u.UserName == TestConstants.DefaultUsername);
 
         user!.RefreshToken = "valid_refresh_token";
         user!.RefreshTokenExpiry = DateTime.UtcNow.AddDays(7);
@@ -109,7 +93,7 @@ public class LoginServiceTests
     [Fact]
     public async Task RefreshTokenAsync_ShouldThrowInvalidOperationException_WhenRefreshTokenIsInExpired()
     {
-        var user = await _context.IdentityUsers.FirstOrDefaultAsync(x=>x.UserName== "testuser");
+        var user = await _context.IdentityUsers.FirstOrDefaultAsync(x => x.UserName == "testuser");
 
         user!.RefreshTokenExpiry = DateTime.UtcNow.AddDays(-1);
         await _context.SaveChangesAsync();

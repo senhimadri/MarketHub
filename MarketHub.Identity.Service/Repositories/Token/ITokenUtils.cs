@@ -1,6 +1,6 @@
-﻿using MarketHub.Identity.Service.Entities;
+﻿using MarketHub.IdentityModule.Api.Entities;
 
-namespace MarketHub.Identity.Service.Repositories.Token;
+namespace MarketHub.IdentityModule.Api.Repositories.Token;
 
 public interface ITokenUtils
 {

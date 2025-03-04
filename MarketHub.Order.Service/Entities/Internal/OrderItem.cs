@@ -1,6 +1,6 @@
-﻿using MarketHub.Order.Service.Entities.External;
+﻿using MarketHub.OrderModule.Api.ExternalEntities;
 
-namespace MarketHub.Order.Service.Entities.Internal;
+namespace MarketHub.OrderModule.Api.Entities.Internal;
 
 public class OrderItem : BaseEntity
 {

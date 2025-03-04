@@ -1,7 +1,7 @@
-﻿using MarketHub.Identity.Service.Entities;
+﻿using MarketHub.IdentityModule.Api.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace MarketHub.Identity.Service;
+namespace MarketHub.IdentityModule.Api;
 
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {

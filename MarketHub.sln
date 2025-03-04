@@ -3,39 +3,43 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MarketHub.Identity", "MarketHub.Identity", "{FCEC7D97-B9C9-4BEF-8166-04E81CF00161}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MarketHub.IdentityModule", "MarketHub.IdentityModule", "{FCEC7D97-B9C9-4BEF-8166-04E81CF00161}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MarketHub.Product", "MarketHub.Product", "{DACA1E02-CD94-4190-849B-6E63B8A3B89D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MarketHub.ProductModule", "MarketHub.ProductModule", "{DACA1E02-CD94-4190-849B-6E63B8A3B89D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MarketHub.Inventory", "MarketHub.Inventory", "{FD32A027-8F4A-4350-80DB-6995373709D9}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MarketHub.InventoryModule", "MarketHub.InventoryModule", "{FD32A027-8F4A-4350-80DB-6995373709D9}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MarketHub.Order", "MarketHub.Order", "{D377D696-C329-42A6-95B8-1B8FB54033B7}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MarketHub.OrderModule", "MarketHub.OrderModule", "{D377D696-C329-42A6-95B8-1B8FB54033B7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MarketHub.Payment", "MarketHub.Payment", "{AB938687-15B8-45BD-BC16-B674E5AB4009}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MarketHub.PaymentModule", "MarketHub.PaymentModule", "{AB938687-15B8-45BD-BC16-B674E5AB4009}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MarketHub.Notification", "MarketHub.Notification", "{F1466E43-C418-4914-8660-EB463FAD4071}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MarketHub.NotificationModule", "MarketHub.NotificationModule", "{F1466E43-C418-4914-8660-EB463FAD4071}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketHub.Inventory.Service", "MarketHub.Inventory.Service\MarketHub.Inventory.Service.csproj", "{29CF8897-6905-4D40-B35E-E58DFB594B01}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketHub.InventoryModule.Api", "MarketHub.Inventory.Service\MarketHub.InventoryModule.Api.csproj", "{29CF8897-6905-4D40-B35E-E58DFB594B01}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketHub.Notification.Service", "MarketHub.Notification.Service\MarketHub.Notification.Service.csproj", "{FEA6CF71-2165-4D0B-853C-F237E1FCB686}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketHub.NotificationModule.Api", "MarketHub.Notification.Service\MarketHub.NotificationModule.Api.csproj", "{FEA6CF71-2165-4D0B-853C-F237E1FCB686}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketHub.Order.Service", "MarketHub.Order.Service\MarketHub.Order.Service.csproj", "{B06E6CF5-CF20-4E21-ACB8-442C2A115C01}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketHub.OrderModule.Api", "MarketHub.Order.Service\MarketHub.OrderModule.Api.csproj", "{B06E6CF5-CF20-4E21-ACB8-442C2A115C01}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketHub.Payment.Service", "MarketHub.Payment.Service\MarketHub.Payment.Service.csproj", "{A14CA408-6A02-4472-B0FE-148E973CEC00}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketHub.PaymentModule.Api", "MarketHub.Payment.Service\MarketHub.PaymentModule.Api.csproj", "{A14CA408-6A02-4472-B0FE-148E973CEC00}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketHub.Product.Service", "MarketHub.Product.Service\MarketHub.Product.Service.csproj", "{7E8A766E-293F-4C8F-8C4D-C0DB273A56CB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketHub.ProductModule.Api", "MarketHub.Product.Service\MarketHub.ProductModule.Api.csproj", "{7E8A766E-293F-4C8F-8C4D-C0DB273A56CB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketHub.Identity.Service", "MarketHub.Identity.Service\MarketHub.Identity.Service.csproj", "{B711DC99-BCDF-4C3A-8AB9-F83BABE76D87}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketHub.IdentityModule.Api", "MarketHub.Identity.Service\MarketHub.IdentityModule.Api.csproj", "{B711DC99-BCDF-4C3A-8AB9-F83BABE76D87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketHub.Identity.Service.Tests", "MarketHub.Identity.Service.Tests\MarketHub.Identity.Service.Tests.csproj", "{77A8A60C-17CC-4B47-925D-7A4EDC3B972C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketHub.IdentityModule.UnitTest", "MarketHub.Identity.Service.Tests\MarketHub.IdentityModule.UnitTest.csproj", "{77A8A60C-17CC-4B47-925D-7A4EDC3B972C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MarketHub.Common", "MarketHub.Common", "{A79E16B4-BF9A-4392-ACB4-D34DA6DCFDAA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketHub.Common.Library", "MarketHub.Common.Library\MarketHub.Common.Library.csproj", "{822978E4-33DD-4B88-B983-9ED8DF415D00}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MarketHub.Customer", "MarketHub.Customer", "{464E8855-596C-4FE9-8D98-01CC11A03E40}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MarketHub.CustomerModule", "MarketHub.CustomerModule", "{464E8855-596C-4FE9-8D98-01CC11A03E40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketHub.Customer.Service", "MarketHub.Customer.Service\MarketHub.Customer.Service.csproj", "{5DD80106-0C7F-47D4-B2F1-9149BFAFA83B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketHub.CustomerModule.Api", "MarketHub.Customer.Service\MarketHub.CustomerModule.Api.csproj", "{5DD80106-0C7F-47D4-B2F1-9149BFAFA83B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketHub.CustomerModule.UnitTest", "MarketHub.CustomerModule.UnitTest\MarketHub.CustomerModule.UnitTest.csproj", "{DBC40AF4-5A43-4CA6-B475-2296AB99C1E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketHub.CustomerModule.IntegrationTest", "MarketHub.CustomerModule.IntegrationTest\MarketHub.CustomerModule.IntegrationTest.csproj", "{AD1C2287-9A93-4074-AD9C-2E5271FC8A19}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,6 +83,14 @@ Global
 		{5DD80106-0C7F-47D4-B2F1-9149BFAFA83B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5DD80106-0C7F-47D4-B2F1-9149BFAFA83B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5DD80106-0C7F-47D4-B2F1-9149BFAFA83B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBC40AF4-5A43-4CA6-B475-2296AB99C1E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBC40AF4-5A43-4CA6-B475-2296AB99C1E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBC40AF4-5A43-4CA6-B475-2296AB99C1E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBC40AF4-5A43-4CA6-B475-2296AB99C1E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD1C2287-9A93-4074-AD9C-2E5271FC8A19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD1C2287-9A93-4074-AD9C-2E5271FC8A19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD1C2287-9A93-4074-AD9C-2E5271FC8A19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD1C2287-9A93-4074-AD9C-2E5271FC8A19}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -93,5 +105,7 @@ Global
 		{77A8A60C-17CC-4B47-925D-7A4EDC3B972C} = {FCEC7D97-B9C9-4BEF-8166-04E81CF00161}
 		{822978E4-33DD-4B88-B983-9ED8DF415D00} = {A79E16B4-BF9A-4392-ACB4-D34DA6DCFDAA}
 		{5DD80106-0C7F-47D4-B2F1-9149BFAFA83B} = {464E8855-596C-4FE9-8D98-01CC11A03E40}
+		{DBC40AF4-5A43-4CA6-B475-2296AB99C1E2} = {464E8855-596C-4FE9-8D98-01CC11A03E40}
+		{AD1C2287-9A93-4074-AD9C-2E5271FC8A19} = {464E8855-596C-4FE9-8D98-01CC11A03E40}
 	EndGlobalSection
 EndGlobal

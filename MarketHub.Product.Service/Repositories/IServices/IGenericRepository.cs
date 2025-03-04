@@ -1,7 +1,7 @@
-﻿using MarketHub.Product.Service.Entities;
+﻿using MarketHub.ProductModule.Api.Entities;
 using System.Linq.Expressions;
 
-namespace MarketHub.Product.Service.Repositories.Generic;
+namespace MarketHub.ProductModule.Api.Repositories.IServices;
 
 public interface IGenericRepository<T> where T : BaseEntity
 {

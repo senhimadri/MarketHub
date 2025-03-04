@@ -1,4 +1,4 @@
-﻿namespace MarketHub.Product.Service.DataTransferObjects;
+﻿namespace MarketHub.ProductModule.Api.DataTransferObjects;
 
 public record ItemBaseDto(
     string Name,

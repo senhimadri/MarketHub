@@ -1,4 +1,4 @@
-﻿namespace MarketHub.Order.Service.Entities.External;
+﻿namespace MarketHub.OrderModule.Api.Entities.External;
 
 public class Customer
 {

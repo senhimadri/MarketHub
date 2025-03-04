@@ -1,4 +1,4 @@
-namespace MarketHub.Identity.Service.Entities;
+namespace MarketHub.IdentityModule.Api.Entities;
 
 public class IdentityUser
 {

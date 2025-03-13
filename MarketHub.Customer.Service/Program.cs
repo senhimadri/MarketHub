@@ -14,12 +14,24 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ICustomerBasicInfoService,CustomerBasicInfoService>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
 
 
 
 var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
+
+app.UseCors("AllowAllOrigins");
 
 app.MapCustomerEndpoints();
 app.MapCustomersAddressEndpoints();

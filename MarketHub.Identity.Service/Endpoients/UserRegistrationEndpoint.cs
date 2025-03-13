@@ -1,7 +1,7 @@
-﻿using MarketHub.IdentityModule.Api.DataTransferObjects;
+﻿using MarketHub.Common.Library.OperationResult;
+using MarketHub.IdentityModule.Api.DataTransferObjects;
 using MarketHub.IdentityModule.Api.Repositories.Login;
 using MarketHub.IdentityModule.Api.Repositories.Registration;
-using MarketHub.Common.Library.OperationResult;
 
 namespace MarketHub.IdentityModule.Api.Endpoients;
 

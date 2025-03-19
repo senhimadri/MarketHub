@@ -58,6 +58,17 @@
       networks:
         - elk-network
 
+    logstash:
+      container_name: logstash
+      image: docker.elastic.co/logstash/logstash:7.17.0
+      ports:
+        - "5044:5044"
+        - "9600:9600"
+      volumes:
+        - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      networks:
+        - elk-network
+
     kibana:
       container_name: kibana
       image: docker.elastic.co/kibana/kibana:8.15.0

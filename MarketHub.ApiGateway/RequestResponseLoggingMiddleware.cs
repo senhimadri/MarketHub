@@ -1,107 +1,69 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
+﻿using System.Diagnostics;
 using System.Text;
-using System.Threading.Tasks;
+using System.Text.Json;
+using Serilog;
 
 namespace MarketHub.ApiGateway
 {
     // You may need to install the Microsoft.AspNetCore.Http.Abstractions package into your project
-    public class RequestResponseLoggingMiddleware
+    public class RequestResponseLoggingMiddleware(RequestDelegate next)
     {
-        private readonly RequestDelegate _next;
-        private readonly ILogger<RequestResponseLoggingMiddleware> _logger;
-
-        public RequestResponseLoggingMiddleware(RequestDelegate next, ILogger<RequestResponseLoggingMiddleware> logger)
+        private readonly RequestDelegate _next= next;
+        public async Task Invoke(HttpContext context)
         {
-            _next = next;
-            _logger = logger;
-        }
+            var stopwatch = Stopwatch.StartNew();
 
-        public async Task Invoke(HttpContext httpContext)
-        {
+            // Log the Request
+            var requestBody = await ReadRequestBody(context.Request);
+            var requestLog = new
+            {
+                Method = context.Request.Method,
+                Url = context.Request.Path,
+                Headers = context.Request.Headers,
+                Body = requestBody
+            };
+            Log.Information("➡️ Request: {Request}", JsonSerializer.Serialize(requestLog));
 
-            await LogRequest(httpContext);
-
-            // Capture the response
-            var originalBodyStream = httpContext.Response.Body;
+            // Copy original response body
+            var originalBodyStream = context.Response.Body;
             using var responseBody = new MemoryStream();
-            httpContext.Response.Body = responseBody;
+            context.Response.Body = responseBody;
 
-            try
-            {
-                // Call the next middleware in the pipeline
-                await _next(httpContext);
+            await _next(context); // Call next middleware
 
-                // Log the response
-                await LogResponse(httpContext, responseBody);
-            }
-            finally
+            stopwatch.Stop();
+
+            // Log the Response
+            var responseBodyContent = await ReadResponseBody(context.Response);
+            var responseLog = new
             {
-                // Copy the response to the original stream and restore it
-                responseBody.Seek(0, SeekOrigin.Begin);
-                await responseBody.CopyToAsync(originalBodyStream);
-                httpContext.Response.Body = originalBodyStream;
-            }
+                StatusCode = context.Response.StatusCode,
+                ElapsedTimeMs = stopwatch.ElapsedMilliseconds,
+                Body = responseBodyContent
+            };
+            Log.Information("⬅️ Response: {Response}", JsonSerializer.Serialize(responseLog));
+
+            // Reset Response Body
+            responseBody.Seek(0, SeekOrigin.Begin);
+            await responseBody.CopyToAsync(originalBodyStream);
         }
 
-
-        private async Task LogRequest(HttpContext context)
+        private async Task<string> ReadRequestBody(HttpRequest request)
         {
-            try
-            {
-                var request = context.Request;
-                request.EnableBuffering(); // Allow reading the body multiple times
-
-                // Read the request body
-                var body = string.Empty;
-                if (request.Body.CanRead)
-                {
-                    using var reader = new StreamReader(
-                        request.Body,
-                        encoding: Encoding.UTF8,
-                        detectEncodingFromByteOrderMarks: false,
-                        leaveOpen: true);
-
-                    body = await reader.ReadToEndAsync();
-                    request.Body.Position = 0; // Reset the position for downstream middleware
-                }
-
-                // Log request details
-                _logger.LogInformation(
-                    "Incoming Request: {Method} {Path} {QueryString} | Headers: {@Headers} | Body: {Body}",
-                    request.Method,
-                    request.Path,
-                    request.QueryString,
-                    request.Headers,
-                    body);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error logging request");
-            }
+            request.EnableBuffering();
+            using var reader = new StreamReader(request.Body, Encoding.UTF8, leaveOpen: true);
+            var body = await reader.ReadToEndAsync();
+            request.Body.Position = 0;
+            return body;
         }
 
-        private async Task LogResponse(HttpContext context, MemoryStream responseBody)
+        private async Task<string> ReadResponseBody(HttpResponse response)
         {
-            try
-            {
-                responseBody.Seek(0, SeekOrigin.Begin);
-                var body = await new StreamReader(responseBody).ReadToEndAsync();
-                responseBody.Seek(0, SeekOrigin.Begin);
-
-                // Log response details
-
-                _logger.LogInformation("Got the response");
-                //_logger.LogInformation(
-                //    "Outgoing Response: {StatusCode} | Headers: {@Headers} | Body: {Body}",
-                //    context.Response.StatusCode,
-                //    context.Response.Headers,
-                //    body);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("Error logging response");
-            }
+            response.Body.Seek(0, SeekOrigin.Begin);
+            using var reader = new StreamReader(response.Body, Encoding.UTF8);
+            var body = await reader.ReadToEndAsync();
+            response.Body.Seek(0, SeekOrigin.Begin);
+            return body;
         }
     }
 

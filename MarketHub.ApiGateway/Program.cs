@@ -1,20 +1,18 @@
 ﻿using MarketHub.ApiGateway;
 using Serilog;
-using Serilog.Sinks.Network;
+using Serilog.Exceptions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.Host.UseSerilog((context, services, configuration) =>
-{
-    configuration
-        .ReadFrom.Configuration(context.Configuration)
-        .ReadFrom.Services(services)
-        .Enrich.FromLogContext()
-        //.Enrich.WithProperty("Service", "MarketHub-ApiGateway") // Add service name for better filtering
-        .WriteTo.Console();
-        //.WriteTo.TCPSink("tcp://localhost:5044"); // Use host & port directly
-});
+
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.WithThreadId()
+    .Enrich.WithMachineName()
+    .Enrich.WithProcessId()
+    .Enrich.WithExceptionDetails()
+    .CreateLogger();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -24,8 +22,8 @@ builder.Services.AddReverseProxy()
 
 var app = builder.Build();
 
-app.UseSerilogRequestLogging();
-app.UseRequestResponseLogging();
+//app.UseSerilogRequestLogging();
+
 
 app.UseSwagger();
 app.UseSwaggerUI(options =>
@@ -38,5 +36,9 @@ app.UseHttpsRedirection();
 app.UseRouting();
 
 app.MapReverseProxy();
+
+app.UseRequestResponseLogging();
+
+//Log.Information("🚀 MarketHub API Gateway started!");
 
 app.Run();

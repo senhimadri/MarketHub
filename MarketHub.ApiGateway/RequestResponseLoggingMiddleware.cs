@@ -24,7 +24,7 @@ namespace MarketHub.ApiGateway
             };
             Log.Information("➡️ Request: {Request}", JsonSerializer.Serialize(requestLog));
 
-            // Copy original response body
+            // Copy original response body  
             var originalBodyStream = context.Response.Body;
             using var responseBody = new MemoryStream();
             context.Response.Body = responseBody;

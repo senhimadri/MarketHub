@@ -12,6 +12,8 @@ public class ItemRepository(AppDbContext context) : IItemRepository
 
     public async Task<OperationResult> CreateItemAsync(CreateItemDto request)
     {
+        using var transaction = await _context.Database.BeginTransactionAsync();
+
         var itemId = Guid.NewGuid();
 
         var newItem = new Item
@@ -37,7 +39,10 @@ public class ItemRepository(AppDbContext context) : IItemRepository
         _context.ItemCategory.AddRange(newItemCategory);
         await _context.SaveChangesAsync();
 
+        await transaction.CommitAsync();
+
         return OperationResult.Success();
+ 
     }
 
     public async Task<OperationResult> UpdateItemAsync(UpdateItemDto request)

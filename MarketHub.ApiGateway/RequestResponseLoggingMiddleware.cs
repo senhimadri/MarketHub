@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Text;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using Serilog;
 
@@ -8,12 +9,11 @@ namespace MarketHub.ApiGateway
     // You may need to install the Microsoft.AspNetCore.Http.Abstractions package into your project
     public class RequestResponseLoggingMiddleware(RequestDelegate next)
     {
-        private readonly RequestDelegate _next= next;
+        private readonly RequestDelegate _next = next;
         public async Task Invoke(HttpContext context)
         {
             var stopwatch = Stopwatch.StartNew();
 
-            // Log the Request
             var requestBody = await ReadRequestBody(context.Request);
             var requestLog = new
             {
@@ -22,14 +22,24 @@ namespace MarketHub.ApiGateway
                 Headers = context.Request.Headers,
                 Body = requestBody
             };
-            Log.Information("➡️ Request: {Request}", JsonSerializer.Serialize(requestLog));
+
+            Log.Information("➡️ Request: {Request}", requestLog);
 
             // Copy original response body  
             var originalBodyStream = context.Response.Body;
             using var responseBody = new MemoryStream();
             context.Response.Body = responseBody;
 
-            await _next(context); // Call next middleware
+            try
+            {
+                await _next(context);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            
 
             stopwatch.Stop();
 
@@ -39,13 +49,18 @@ namespace MarketHub.ApiGateway
             {
                 StatusCode = context.Response.StatusCode,
                 ElapsedTimeMs = stopwatch.ElapsedMilliseconds,
-                Body = responseBodyContent
+                Body = responseBodyContent ?? string.Empty
             };
-            Log.Information("⬅️ Response: {Response}", JsonSerializer.Serialize(responseLog));
 
-            // Reset Response Body
+
+            Log.Information("⬅️ Response: {Response}", responseLog);
+
+
             responseBody.Seek(0, SeekOrigin.Begin);
             await responseBody.CopyToAsync(originalBodyStream);
+
+            // Reset Response Body
+
         }
 
         private async Task<string> ReadRequestBody(HttpRequest request)
@@ -65,6 +80,14 @@ namespace MarketHub.ApiGateway
             response.Body.Seek(0, SeekOrigin.Begin);
             return body;
         }
+
+
+        private static readonly JsonSerializerOptions _jsonSerializerOptions = new()
+        {
+            WriteIndented = true, // ✅ Makes JSON readable
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase, // ✅ Converts PascalCase to camelCase
+            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping // ✅ Prevents excessive escaping
+        };
     }
 
     public static class MiddlewareExtensions

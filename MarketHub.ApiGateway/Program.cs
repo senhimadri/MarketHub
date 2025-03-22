@@ -1,4 +1,5 @@
 ﻿using MarketHub.ApiGateway;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Serilog;
 using Serilog.Exceptions;
 
@@ -11,34 +12,34 @@ Log.Logger = new LoggerConfiguration()
     .Enrich.WithThreadId()
     .Enrich.WithMachineName()
     .Enrich.WithProcessId()
-    .Enrich.WithExceptionDetails()
+    //.Enrich.WithExceptionDetails()
     .CreateLogger();
+
+builder.Host.UseSerilog((context, services, configuration) =>
+    configuration
+        .ReadFrom.Configuration(context.Configuration)
+        .ReadFrom.Services(services)
+        .Enrich.FromLogContext()
+);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddReverseProxy()
     .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
 
-
 var app = builder.Build();
 
 //app.UseSerilogRequestLogging();
 
-
-app.UseSwagger();
-app.UseSwaggerUI(options =>
-{
-    options.SwaggerEndpoint("/identity/swagger/v1/swagger.json", "Identity API");
-    options.SwaggerEndpoint("/product/swagger/v1/swagger.json", "Product API");
-});
+//app.UseSwagger();
 
 app.UseHttpsRedirection();
 app.UseRouting();
 
-app.MapReverseProxy();
-
 app.UseRequestResponseLogging();
 
-//Log.Information("🚀 MarketHub API Gateway started!");
+
+
+app.MapReverseProxy();
 
 app.Run();

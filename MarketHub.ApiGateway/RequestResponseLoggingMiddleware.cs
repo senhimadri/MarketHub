@@ -6,7 +6,6 @@ using Serilog;
 
 namespace MarketHub.ApiGateway
 {
-    // You may need to install the Microsoft.AspNetCore.Http.Abstractions package into your project
     public class RequestResponseLoggingMiddleware(RequestDelegate next)
     {
         private readonly RequestDelegate _next = next;
@@ -24,26 +23,15 @@ namespace MarketHub.ApiGateway
             };
 
             Log.Information("➡️ Request: {Request}", requestLog);
-
-            // Copy original response body  
+ 
             var originalBodyStream = context.Response.Body;
             using var responseBody = new MemoryStream();
             context.Response.Body = responseBody;
 
-            try
-            {
-                await _next(context);
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
-            
+            await _next(context);
 
             stopwatch.Stop();
 
-            // Log the Response
             var responseBodyContent = await ReadResponseBody(context.Response);
             var responseLog = new
             {
@@ -52,15 +40,18 @@ namespace MarketHub.ApiGateway
                 Body = responseBodyContent ?? string.Empty
             };
 
-
             Log.Information("⬅️ Response: {Response}", responseLog);
+            try
+            {
+                responseBody.Seek(0, SeekOrigin.Begin);
+                await responseBody.CopyToAsync(originalBodyStream);
+            }
+            catch (Exception ex)
+            {
 
-
-            responseBody.Seek(0, SeekOrigin.Begin);
-            await responseBody.CopyToAsync(originalBodyStream);
-
-            // Reset Response Body
-
+                throw;
+            }
+   
         }
 
         private async Task<string> ReadRequestBody(HttpRequest request)
@@ -74,11 +65,24 @@ namespace MarketHub.ApiGateway
 
         private async Task<string> ReadResponseBody(HttpResponse response)
         {
-            response.Body.Seek(0, SeekOrigin.Begin);
-            using var reader = new StreamReader(response.Body, Encoding.UTF8);
-            var body = await reader.ReadToEndAsync();
-            response.Body.Seek(0, SeekOrigin.Begin);
-            return body;
+            try
+            {
+                response.Body.Seek(0, SeekOrigin.Begin);
+                using var reader = new StreamReader(stream: response.Body,
+                                                    encoding: Encoding.UTF8, 
+                                                    detectEncodingFromByteOrderMarks: false,
+                                                    bufferSize: 1024, 
+                                                    leaveOpen: true);
+
+                var body = await reader.ReadToEndAsync();
+                response.Body.Seek(offset: 0,origin: SeekOrigin.Begin);
+                return body;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(exception: ex, messageTemplate: "Failed to read response body.");
+                return string.Empty;
+            }
         }
 
 

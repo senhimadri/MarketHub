@@ -1,7 +1,5 @@
 ﻿using MarketHub.ApiGateway;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Serilog;
-using Serilog.Exceptions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +10,6 @@ Log.Logger = new LoggerConfiguration()
     .Enrich.WithThreadId()
     .Enrich.WithMachineName()
     .Enrich.WithProcessId()
-    //.Enrich.WithExceptionDetails()
     .CreateLogger();
 
 builder.Host.UseSerilog((context, services, configuration) =>

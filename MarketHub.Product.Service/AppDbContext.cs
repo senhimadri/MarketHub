@@ -10,12 +10,12 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     {
         modelBuilder.Entity<ItemCategory>()
             .HasKey(ic => new { ic.ItemId, ic.CategoryId });
-        modelBuilder.ApplyGlobalFilters();
+        
     }
-    public DbSet<Item> Item { get; } = null!;
-    public DbSet<Category> Category { get; } = null!;
-    public DbSet<ItemCategory> ItemCategory { get;  } = null!;
-    public DbSet<ItemPriceLog> ItemPriceLog { get; } = null!;
+    public DbSet<Item> Item { get; set; } = null!;
+    public DbSet<Category> Category { get; set; } = null!;
+    public DbSet<ItemCategory> ItemCategory { get; set; } = null!;
+    public DbSet<ItemPriceLog> ItemPriceLog { get; set; } = null!;
 
 }
 
@@ -30,9 +30,9 @@ public static class ModelBuilderExtensions
                 var parameter = Expression.Parameter(entityType.ClrType, "e");
                 var property = Expression.Property(parameter, nameof(BaseEntity.IsDeleted));
                 var filter = Expression.Lambda(
-                    Expression.Not(property),
-                    parameter
-                );
+                           Expression.Equal(property, Expression.Constant(false)), // e.IsDeleted == false
+                           parameter
+                       );
 
                 modelBuilder.Entity(entityType.ClrType).HasQueryFilter(filter);
             }

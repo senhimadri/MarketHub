@@ -41,15 +41,10 @@ namespace MarketHub.ProductModule.Api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("ParentCategoryId")
-                        .HasColumnType("uuid");
-
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ParentCategoryId");
 
                     b.ToTable("Category");
                 });
@@ -143,19 +138,10 @@ namespace MarketHub.ProductModule.Api.Migrations
                     b.ToTable("ItemPriceLog");
                 });
 
-            modelBuilder.Entity("MarketHub.ProductModule.Api.Entities.Category", b =>
-                {
-                    b.HasOne("MarketHub.ProductModule.Api.Entities.Category", "ParentCategory")
-                        .WithMany("ChildCategory")
-                        .HasForeignKey("ParentCategoryId");
-
-                    b.Navigation("ParentCategory");
-                });
-
             modelBuilder.Entity("MarketHub.ProductModule.Api.Entities.ItemCategory", b =>
                 {
                     b.HasOne("MarketHub.ProductModule.Api.Entities.Category", "Category")
-                        .WithMany("ItemCategorys")
+                        .WithMany("ItemCategories")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -184,9 +170,7 @@ namespace MarketHub.ProductModule.Api.Migrations
 
             modelBuilder.Entity("MarketHub.ProductModule.Api.Entities.Category", b =>
                 {
-                    b.Navigation("ChildCategory");
-
-                    b.Navigation("ItemCategorys");
+                    b.Navigation("ItemCategories");
                 });
 
             modelBuilder.Entity("MarketHub.ProductModule.Api.Entities.Item", b =>

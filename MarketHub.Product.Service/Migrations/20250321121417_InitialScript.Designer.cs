@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MarketHub.ProductModule.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250122122740_second-script")]
-    partial class secondscript
+    [Migration("20250321121417_InitialScript")]
+    partial class InitialScript
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,7 +31,7 @@ namespace MarketHub.ProductModule.Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<DateTimeOffset>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
@@ -44,15 +44,10 @@ namespace MarketHub.ProductModule.Api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("ParentCategoryId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTimeOffset?>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ParentCategoryId");
 
                     b.ToTable("Category");
                 });
@@ -63,7 +58,7 @@ namespace MarketHub.ProductModule.Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<DateTimeOffset>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
@@ -89,7 +84,7 @@ namespace MarketHub.ProductModule.Api.Migrations
                     b.Property<decimal>("Stock")
                         .HasColumnType("numeric");
 
-                    b.Property<DateTimeOffset?>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
@@ -118,7 +113,7 @@ namespace MarketHub.ProductModule.Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<DateTimeOffset>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("EffectiveFrom")
@@ -136,7 +131,7 @@ namespace MarketHub.ProductModule.Api.Migrations
                     b.Property<decimal>("OldPrice")
                         .HasColumnType("numeric");
 
-                    b.Property<DateTimeOffset?>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
@@ -146,25 +141,16 @@ namespace MarketHub.ProductModule.Api.Migrations
                     b.ToTable("ItemPriceLog");
                 });
 
-            modelBuilder.Entity("MarketHub.ProductModule.Api.Entities.Category", b =>
-                {
-                    b.HasOne("MarketHub.ProductModule.Api.Entities.Category", "ParentCategory")
-                        .WithMany("ChildCategory")
-                        .HasForeignKey("ParentCategoryId");
-
-                    b.Navigation("ParentCategory");
-                });
-
             modelBuilder.Entity("MarketHub.ProductModule.Api.Entities.ItemCategory", b =>
                 {
                     b.HasOne("MarketHub.ProductModule.Api.Entities.Category", "Category")
-                        .WithMany("ItemCategorys")
+                        .WithMany("ItemCategories")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("MarketHub.ProductModule.Api.Entities.Item", "Item")
-                        .WithMany("ProductCategories")
+                        .WithMany("ItemCategories")
                         .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -187,14 +173,12 @@ namespace MarketHub.ProductModule.Api.Migrations
 
             modelBuilder.Entity("MarketHub.ProductModule.Api.Entities.Category", b =>
                 {
-                    b.Navigation("ChildCategory");
-
-                    b.Navigation("ItemCategorys");
+                    b.Navigation("ItemCategories");
                 });
 
             modelBuilder.Entity("MarketHub.ProductModule.Api.Entities.Item", b =>
                 {
-                    b.Navigation("ProductCategories");
+                    b.Navigation("ItemCategories");
                 });
 #pragma warning restore 612, 618
         }

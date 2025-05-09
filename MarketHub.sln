@@ -45,6 +45,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MarketHub.ApiGateway", "Mar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketHub.ApiGateway", "MarketHub.ApiGateway\MarketHub.ApiGateway.csproj", "{DA9664A1-CDB6-4E68-BCD0-332D6E14D003}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketHub.ProductModule.Contracts", "MarketHub.ProductModule.Contracts\MarketHub.ProductModule.Contracts.csproj", "{A2A07DAF-A11D-4739-A6F8-9BB1CFCB25EF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +101,10 @@ Global
 		{DA9664A1-CDB6-4E68-BCD0-332D6E14D003}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA9664A1-CDB6-4E68-BCD0-332D6E14D003}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA9664A1-CDB6-4E68-BCD0-332D6E14D003}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2A07DAF-A11D-4739-A6F8-9BB1CFCB25EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2A07DAF-A11D-4739-A6F8-9BB1CFCB25EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2A07DAF-A11D-4739-A6F8-9BB1CFCB25EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2A07DAF-A11D-4739-A6F8-9BB1CFCB25EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -116,5 +122,9 @@ Global
 		{DBC40AF4-5A43-4CA6-B475-2296AB99C1E2} = {464E8855-596C-4FE9-8D98-01CC11A03E40}
 		{AD1C2287-9A93-4074-AD9C-2E5271FC8A19} = {464E8855-596C-4FE9-8D98-01CC11A03E40}
 		{DA9664A1-CDB6-4E68-BCD0-332D6E14D003} = {8F00D37D-3525-48E5-B9F5-B74566E68CFF}
+		{A2A07DAF-A11D-4739-A6F8-9BB1CFCB25EF} = {DACA1E02-CD94-4190-849B-6E63B8A3B89D}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {948DA1C8-37E2-4EC2-A727-FBB365888CD9}
 	EndGlobalSection
 EndGlobal

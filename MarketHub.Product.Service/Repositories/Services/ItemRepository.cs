@@ -2,17 +2,22 @@
 using MarketHub.ProductModule.Api.DataTransferObjects;
 using MarketHub.ProductModule.Api.Entities;
 using MarketHub.ProductModule.Api.Repositories.IServices;
+using MarketHub.ProductModule.Contracts;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
 namespace MarketHub.ProductModule.Api.Repositories.Services;
 
-public class ItemRepository(AppDbContext context) : IItemRepository
+public class ItemRepository(AppDbContext context, IPublishEndpoint publishEndpoint) : IItemRepository
 {
     private readonly AppDbContext _context = context;
+    private readonly IPublishEndpoint _publishEndpoint = publishEndpoint;
 
     public async Task<OperationResult> CreateItemAsync(CreateItemDto request)
     {
-        using var transaction = await _context.Database.BeginTransactionAsync();
+
+
+        
 
         var itemId = Guid.NewGuid();
 
@@ -27,19 +32,24 @@ public class ItemRepository(AppDbContext context) : IItemRepository
             ImageUrl = request.ImageUrl,
             CreatedAt = DateTime.UtcNow
         };
-        _context.Add(newItem);
-        await _context.SaveChangesAsync();
 
-        var newItemCategory = request.CategoryIds.Select(CategoryId => new ItemCategory
-        {
-            ItemId = itemId,
-            CategoryId = CategoryId
-        }).ToList();
+        await _publishEndpoint.Publish(new CreateItemCommand(newItem.Id, newItem.Name));
 
-        _context.ItemCategory.AddRange(newItemCategory);
-        await _context.SaveChangesAsync();
+        //using var transaction = await _context.Database.BeginTransactionAsync();
+        //_context.Add(newItem);
+        //await _context.SaveChangesAsync();
 
-        await transaction.CommitAsync();
+        //var newItemCategory = request.CategoryIds.Select(CategoryId => new ItemCategory
+        //{
+        //    ItemId = itemId,
+        //    CategoryId = CategoryId
+        //}).ToList();
+
+        //_context.ItemCategory.AddRange(newItemCategory);
+        //await _context.SaveChangesAsync();
+
+        //await transaction.CommitAsync();
+
 
         return OperationResult.Success();
  

@@ -21,6 +21,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\MarketHub.Common.Library\MarketHub.Common.Library.csproj" />
+      <ProjectReference Include="..\MarketHub.ProductModule.Contracts\MarketHub.ProductModule.Contracts.csproj" />
     </ItemGroup>
 
 </Project>

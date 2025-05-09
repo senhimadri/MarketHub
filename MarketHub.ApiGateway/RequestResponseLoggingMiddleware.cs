@@ -41,16 +41,10 @@ namespace MarketHub.ApiGateway
             };
 
             Log.Information("⬅️ Response: {Response}", responseLog);
-            try
-            {
-                responseBody.Seek(0, SeekOrigin.Begin);
-                await responseBody.CopyToAsync(originalBodyStream);
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
+      
+            responseBody.Seek(0, SeekOrigin.Begin);
+            await responseBody.CopyToAsync(originalBodyStream);
+  
    
         }
 
